@@ -4,6 +4,7 @@ import com.example.reservehaja.data.dao.dto.ChangeProductNameDto;
 import com.example.reservehaja.data.dao.dto.ProductDto;
 import com.example.reservehaja.data.dao.dto.ProductResponseDto;
 import com.example.reservehaja.service.ProductService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class ProductController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductResponseDto> getProduct(Long number) {
         ProductResponseDto productResponseDto = productService.getProduct(number);
 
@@ -26,6 +28,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDto productDto) {
         ProductResponseDto productResponseDto = productService.saveProduct(productDto);
 
@@ -33,6 +36,7 @@ public class ProductController {
     }
 
     @PutMapping
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductResponseDto> changeProductName(
             @RequestBody ChangeProductNameDto changeProductNameDto
     ) throws Exception {
@@ -43,6 +47,7 @@ public class ProductController {
     }
 
     @DeleteMapping
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<String> deleteProduct(Long number) throws Exception {
         productService.deleteProduct(number);
 
