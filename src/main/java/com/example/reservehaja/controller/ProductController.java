@@ -1,9 +1,9 @@
 package com.example.reservehaja.controller;
 
-import com.example.reservehaja.data.dao.dto.ChangeProductNameDto;
-import com.example.reservehaja.data.dao.dto.ProductDto;
-import com.example.reservehaja.data.dao.dto.ProductResponseDto;
-import com.example.reservehaja.service.ProductService;
+import com.example.reservehaja.data.dto.product.ChangeProductNameDto;
+import com.example.reservehaja.data.dto.product.ProductDto;
+import com.example.reservehaja.data.dto.product.ProductResponseDto;
+import com.example.reservehaja.service.product.ProductService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

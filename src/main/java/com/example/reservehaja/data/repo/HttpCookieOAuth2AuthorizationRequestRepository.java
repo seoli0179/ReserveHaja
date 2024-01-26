@@ -1,6 +1,6 @@
 package com.example.reservehaja.data.repo;
 
-import com.example.reservehaja.util.CookieUtils;
+import com.example.reservehaja.service.auth.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

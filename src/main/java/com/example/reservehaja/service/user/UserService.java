@@ -1,8 +1,8 @@
 package com.example.reservehaja.service.user;
 
-import com.example.reservehaja.data.dao.dto.user.UserJoinResponseDto;
-import com.example.reservehaja.data.entity.user.User;
-import com.example.reservehaja.data.repo.user.UserRepository;
+import com.example.reservehaja.data.dto.user.UserJoinResponseDto;
+import com.example.reservehaja.data.entity.User;
+import com.example.reservehaja.data.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

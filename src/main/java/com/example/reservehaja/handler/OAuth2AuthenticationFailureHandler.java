@@ -1,7 +1,7 @@
 package com.example.reservehaja.handler;
 
 import com.example.reservehaja.data.repo.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.example.reservehaja.util.CookieUtils;
+import com.example.reservehaja.service.auth.CookieUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

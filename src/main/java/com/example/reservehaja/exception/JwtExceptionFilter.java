@@ -1,6 +1,6 @@
 package com.example.reservehaja.exception;
 
-import com.example.reservehaja.data.dao.dto.user.StatusResponseDto;
+import com.example.reservehaja.data.dto.user.StatusResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

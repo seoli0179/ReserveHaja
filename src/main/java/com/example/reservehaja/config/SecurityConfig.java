@@ -4,8 +4,8 @@ import com.example.reservehaja.data.repo.HttpCookieOAuth2AuthorizationRequestRep
 import com.example.reservehaja.exception.JwtExceptionFilter;
 import com.example.reservehaja.handler.OAuth2AuthenticationFailureHandler;
 import com.example.reservehaja.handler.OAuth2AuthenticationSuccessHandler;
-import com.example.reservehaja.service.user.CustomOAuth2UserService;
-import com.example.reservehaja.service.user.JwtAuthFilter;
+import com.example.reservehaja.service.auth.CustomOAuth2UserService;
+import com.example.reservehaja.service.auth.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

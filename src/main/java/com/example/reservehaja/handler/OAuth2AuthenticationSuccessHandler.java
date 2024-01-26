@@ -1,13 +1,13 @@
 package com.example.reservehaja.handler;
 
-import com.example.reservehaja.data.dao.dto.user.Token;
-import com.example.reservehaja.data.entity.user.OAuth2Provider;
-import com.example.reservehaja.data.entity.user.OAuth2UserUnlinkManager;
+import com.example.reservehaja.data.dto.user.Token;
+import com.example.reservehaja.data.dto.user.OAuth2Provider;
+import com.example.reservehaja.data.dto.user.OAuth2UserUnlinkManager;
 import com.example.reservehaja.data.repo.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.example.reservehaja.service.user.JwtUtil;
-import com.example.reservehaja.service.user.OAuth2UserPrincipal;
+import com.example.reservehaja.service.auth.JwtUtil;
+import com.example.reservehaja.service.auth.OAuth2UserPrincipal;
 import com.example.reservehaja.service.user.UserService;
-import com.example.reservehaja.util.CookieUtils;
+import com.example.reservehaja.service.auth.CookieUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
