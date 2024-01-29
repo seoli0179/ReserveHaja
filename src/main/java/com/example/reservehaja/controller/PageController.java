@@ -22,8 +22,33 @@ public class PageController {
     }
 
     @GetMapping("/reserve")
-    public String reservePage(){
-        return "/reserve/reserve";
+    public String reserveIndexPage(){
+        return "/reserve/index";
+    }
+
+    @GetMapping("/product")
+    public String productIndexPage(){
+        return "/product/index";
+    }
+
+    @GetMapping("/product/create")
+    public String productCreatePage(){
+        return "/product/create";
+    }
+
+    @GetMapping("/product/read")
+    public String productReadPage(){
+        return "/product/read";
+    }
+
+    @GetMapping("/product/update")
+    public String productUpdatePage(){
+        return "/product/update";
+    }
+
+    @GetMapping("/product/delete")
+    public String productDeletePage(){
+        return "/product/delete";
     }
 
 }

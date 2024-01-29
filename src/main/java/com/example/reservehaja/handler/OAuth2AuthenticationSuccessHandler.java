@@ -95,8 +95,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             Token token = jwtUtil.generateToken(principal.getUserInfo().getEmail());
 
+            CookieUtils.addCookie(response,"accessToken", token.getAccessToken(),3600);
+            //CookieUtils.addCookie(response,"Authorization", "Bearer " + token.getAccessToken(),3600);
             return UriComponentsBuilder.fromUriString(targetUrl + "/")
-                    .queryParam("access_token", token.getAccessToken())
+                    //.queryParam("access_token", token.getAccessToken())
                     .build().toUriString();
 
         } else if ("unlink".equalsIgnoreCase(mode)) {

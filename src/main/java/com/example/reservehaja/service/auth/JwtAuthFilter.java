@@ -5,6 +5,7 @@ import com.example.reservehaja.data.entity.User;
 import com.example.reservehaja.data.repo.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -33,13 +36,28 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // request Header에서 AccessToken을 가져온다.
-        String atc = request.getHeader("Authorization"); //Illegal base64url character: ' '에러  'Bearer ' 라는 공백 인식에러
-        if(atc != null) atc = atc.replaceAll("Bearer ","");
-        System.out.println("doFilterInternal : " + atc);
 
+        // request Header에서 AccessToken을 가져온다.
+        //String atc = request.getHeader("Authorization"); //Illegal base64url character: ' '에러  'Bearer ' 라는 공백 인식에러
+        //if(atc != null) atc = atc.replaceAll("Bearer ","");
+        //String atc = request.getHeader("accessToken"); //Illegal base64url character: ' '에러  'Bearer ' 라는 공백 인식에러
+
+        Optional<Cookie> cookie = CookieUtils.getCookie(request, "accessToken");
+        String atc = "";
+        if(cookie.isPresent())
+            atc = cookie.get().getValue();
+
+
+        //System.out.println("doFilterInternal : " + atc);
+
+        /*
         // 토큰 검사 생략(모두 허용 URL의 경우 토큰 검사 통과)
         if (!StringUtils.hasText(atc)) {
+            doFilter(request, response, filterChain);
+            return;
+        }
+         */
+        if (Objects.equals(atc, "")) {
             doFilter(request, response, filterChain);
             return;
         }

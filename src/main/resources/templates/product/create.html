@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Data Submission</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Product Data Form</h1>
+<form id="productForm">
+    <input type="text" id="name" placeholder="Name"><br>
+    <input type="number" id="price" placeholder="Price"><br>
+    <input type="number" id="stock" placeholder="Stock"><br>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#productForm").submit(function (event) {
+            event.preventDefault();
+
+            var productDto = {
+                name: $("#name").val(),
+                price: parseInt($("#price").val(), 10),
+                stock: parseInt($("#stock").val(), 10)
+            };
+
+            //var accessToken = getCookie('accessToken');
+            //console.log(accessToken);
+
+            $.ajax({
+                type: "POST",
+                url: "/product/product", // 서버의 URL
+                contentType: "application/json",
+                //headers: {
+                    //"Authorization": "Bearer " + accessToken
+                //},
+                data: JSON.stringify(productDto),
+                success: function (response) {
+                    console.log("Response: ", response);
+                    alert("Product data submitted successfully!");
+                },
+                error: function (error) {
+                    console.error("Error: ", error);
+                    alert("An error occurred while submitting product data.");
+                }
+            });
+        });
+    });
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+</script>
+</body>
+</html>

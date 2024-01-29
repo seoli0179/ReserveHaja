@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/product/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @PostMapping
-    @SecurityRequirement(name = "Authorization")
+    //@SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDto productDto) {
         ProductResponseDto productResponseDto = productService.saveProduct(productDto);
 
