@@ -1,8 +1,14 @@
 package com.example.reservehaja.data.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // 해당 클래스가 엔티티임을 명시(* 필수)
 @Table(name = "user")    //DB Table 이름 지정(생략 가능, 생략시 클래스 이름으로 생성)
@@ -11,9 +17,6 @@ import lombok.Setter;
 public class User {
 
     @Id //테이블 기본키 지정
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String userId;
 
     private String userPassword;
@@ -23,5 +26,8 @@ public class User {
     private String userPhone;
 
     private String userEmail;
+
+    @OneToMany//(mappedBy = "reserve")
+    private List<Reserve> reserves = new ArrayList<>();
 
 }
