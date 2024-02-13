@@ -5,14 +5,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "amenity")
 @Getter
 @Setter
+@ToString
 public class Amenity {
 
     @Id //테이블 기본키 지정
@@ -34,16 +38,16 @@ public class Amenity {
 
     private String userTargetInfo; // 서비스 대상
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime rcptBeginDate; // 접수시작일시
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime rcptEndDate; // 접수종료일시
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime svcOpenBeginDate; // 서비스개시 시작일시
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime svcOpenEndDate; // 서비스개시 종료일시
 
     private LocalTime svcUseBeginTime; // 서비스이용 시작시간
@@ -66,6 +70,9 @@ public class Amenity {
     @ManyToOne(fetch = FetchType.EAGER, optional = false) //optional = false -> Not null
     @JoinColumn(name = "adminId")
     private Admin admin;
+
+    @OneToMany(mappedBy = "amenity", cascade = CascadeType.REMOVE)
+    private List<Round> roundList = new ArrayList<>();
 
 
 

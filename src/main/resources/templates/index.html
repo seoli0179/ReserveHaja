@@ -1,12 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Index</title>
+    <style>
+        .amenity-image {
+            width: 100px; /* 이미지 크기 조정 */
+            height: auto;
+        }
+    </style>
 </head>
 <body>
 <h2>index</h2><br>
 <a href="/auth/login" class="btn btn-info active" role="button">로그인</a><br>
-<a href="/product" class="btn btn-info active" role="button">상품 관리</a><br>
+<a href="/product" class="btn btn-info active" role="button">상품관리</a><br>
+<a href="/mypage" class="btn btn-info active" role="button">마이페이지</a><br>
+<div id="amenityDetails"></div>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/amenity',
+            type: 'GET',
+            success: function (data) {
+                console.log(data);
+                var amenities = data;
+                var table = $('<table>').addClass('table');
+                table.append('<tr><th>ID</th><th>Service Name</th><th>Place Name</th><th>Area Name</th><th>Service State</th><th>Details</th></tr>');
+                $.each(amenities, function (i, amenity) {
+                    var link = $('<a>').attr('href', '/amenity/detail?id=' + amenity.id).text(amenity.svcName); // ID를 사용하여 상세 페이지 링크 생성
+                    var image = $('<img>').attr('src', amenity.imageUrl).addClass('amenity-image'); // 이미지 URL 사용
+                    var row = $('<tr>').append(
+                        $('<td>').append(image),
+                        $('<td>').text(amenity.svcStateName),
+                        $('<td>').append(link),
+                        $('<td>').text(amenity.placeName),
+                        $('<td>').text(amenity.rcptBeginDate + " ~ " + amenity.rcptEndDate),
+                        $('<td>').text(amenity.svcOpenBeginDate + " ~ " + amenity.svcOpenEndDate)
+                    );
+                    table.append(row);
+                });
+                $('#amenityDetails').append(table);
+            }
+        });
+    });
+</script>
 </body>
 </html>

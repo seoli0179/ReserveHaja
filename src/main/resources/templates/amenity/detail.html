@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="amenityDetail"></div>
+<div id="datepicker"></div>
+<button id="reserveButton">예약하기</button>
+<script>
+    var selectedDate = "";
+    const urlParams = new URL(location.href).searchParams;
+    const id = urlParams.get('id');
+    $(document).ready(function () {
+
+        console.log(id);
+
+        $.ajax({
+            url: '/amenity/read?id=' + id,
+            type: 'GET',
+            success: function (amenity) {
+                console.log(amenity)
+                var table = $('<table>').addClass('table');
+                // 속성별로 행 추가
+                table.append('<tr><th>Service Name</th><td>' + amenity.svcName + '</td></tr>' +
+                    '<tr><th>Place Name</th><td>' + amenity.placeName + '</td></tr>' +
+                    '<tr><th>Area Name</th><td>' + amenity.areaName + '</td></tr>' +
+                    '<tr><th>Service State</th><td>' + amenity.svcStateName + '</td></tr>' +
+                    '<tr><th>Details</th><td>' + amenity.detailInfo + '</td></tr>' +
+                    '<tr><th>Image</th><td><img src="' + amenity.imageUrl + '" alt="Amenity Image" style="width:100px;height:auto;"></td></tr>');
+                // 테이블을 #amenityDetail div에 추가
+                $('#amenityDetail').html(table);
+
+                var roundDates = []; // 날짜를 저장할 배열
+
+                amenity.roundList.forEach(function (round) {
+                    round.roundCellList.forEach(function (roundCell) {
+                        // Date 형식으로 변환하여 배열에 추가
+                        var date = new Date(roundCell.roundCellDate);
+                        var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                        roundDates.push(formattedDate);
+                    });
+                });
+
+                console.log(roundDates);
+
+                // datepicker 초기화 및 설정
+                $("#datepicker").datepicker({
+                    beforeShowDay: function (date) {
+                        var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                        if ($.inArray(formattedDate, roundDates) != -1) {
+                            return [true]; // 날짜 표시
+                        } else {
+                            return [false];
+                        }
+                    },
+                    onSelect: function (dateText, inst) {
+                        console.log("Selected date: " + dateText);
+                        selectedDete = dateText;
+                        // 여기에 날짜 선택 시 실행할 코드를 추가합니다.
+                        // 예: 선택된 날짜를 사용하여 서버로 요청을 보내거나, 페이지의 다른 부분을 업데이트합니다.
+                    }
+                });
+
+            },
+            error: function (error) {
+                console.log('Error:', error);
+            }
+        });
+
+    });
+
+    $('#reserveButton').click(function () {
+        console.log(selectedDete);
+        location.href = "/amenity/reserve?id=" + id + "&date=" + selectedDete;
+    });
+
+</script>
+</body>
+</html>

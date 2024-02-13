@@ -1,5 +1,6 @@
 package com.example.reservehaja.data.entity;
 
+import com.example.reservehaja.data.state.ReserveState;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,19 +18,14 @@ public class Reserve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String reserveState;
+    @Enumerated(EnumType.STRING)
+    private ReserveState reserveState;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Asia/Seoul")
     private LocalDateTime reserveStartDate; // 예약 신청
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Asia/Seoul")
-    private LocalDateTime reserveCancelDate; // 예약 취소
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Asia/Seoul")
-    private LocalDateTime reserveCompleteDate; // 예약 완료
-
     @ManyToOne
-    @JoinColumn(name = "round_cell_id")
+    @JoinColumn(name = "roundCell_id")
     private RoundCell roundCell;
 
     @ManyToOne

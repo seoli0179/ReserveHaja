@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>예약관리</title>
+</head>
+<body>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/reserve',
+            type: 'GET',
+            success: function (data) {
+                console.log(data);
+                createTable(data);
+            }
+        });
+    });
+
+    function createTable(data) {
+        // 테이블과 헤더 생성
+        let table = '<table border="1"><tr><th>ID</th><th>예약 상태</th><th>예약 시작 날짜</th><th>서비스 이름</th><th>라운드 셀 날짜</th></tr>';
+
+        const reserveStateMap = {
+            RESERVE_JUDGE: "심사중",
+            RESERVE_COMPLETE: "예약완료",
+            RESERVE_CANCEL: "예약취소"
+        };
+
+        // 데이터로 테이블 행 생성
+        data.forEach(item => {
+            table += `<tr>
+                    <td>${item.id}</td>
+                    <td>${reserveStateMap[item.reserveState]}</td>
+                    <td>${item.reserveStartDate}</td>
+                    <td>${item.svcName}</td>
+                    <td>${item.roundCellDate}</td>
+                    <td><button onclick="cancelReserve(${item.id})">예약취소</button></td>
+                  </tr>`;
+        });
+
+        // 테이블 종료
+        table += '</table>';
+
+        // 생성된 테이블을 document에 삽입
+        document.body.innerHTML = table;
+    }
+    function cancelReserve(id) {
+        $.ajax({
+            url: '/reserve/cancel?id='+id,
+            type: 'GET',
+            success: function (data) {
+                if(data === true){
+                    alert("예약이 취소되었습니다.");
+                    location.reload(true);
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

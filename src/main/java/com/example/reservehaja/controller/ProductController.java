@@ -20,7 +20,6 @@ public class ProductController {
     }
 
     @GetMapping
-    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductResponseDto> getProduct(Long number) {
         ProductResponseDto productResponseDto = productService.getProduct(number);
 
@@ -28,7 +27,6 @@ public class ProductController {
     }
 
     @PostMapping
-    //@SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDto productDto) {
         ProductResponseDto productResponseDto = productService.saveProduct(productDto);
 
@@ -36,7 +34,6 @@ public class ProductController {
     }
 
     @PutMapping
-    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductResponseDto> changeProductName(
             @RequestBody ChangeProductNameDto changeProductNameDto
     ) throws Exception {
@@ -47,7 +44,6 @@ public class ProductController {
     }
 
     @DeleteMapping
-    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<String> deleteProduct(Long number) throws Exception {
         productService.deleteProduct(number);
 

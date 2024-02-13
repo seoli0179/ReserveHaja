@@ -1,9 +1,6 @@
 package com.example.reservehaja.data.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +24,7 @@ public class User {
 
     private String userEmail;
 
-    @OneToMany//(mappedBy = "reserve")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Reserve> reserves = new ArrayList<>();
 
 }
