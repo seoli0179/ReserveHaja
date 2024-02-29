@@ -88,14 +88,15 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             System.out.println(targetUrl);
 
             if(userService.isEmptyUserEmail(principal.getUserInfo().getEmail())){
-                return UriComponentsBuilder.fromUriString("http://localhost:8080/auth/join")
+                return UriComponentsBuilder.fromUriString("http://3.106.116.112/auth/join")
                         .queryParam("userEmail", principal.getUserInfo().getEmail())
                         .build().toUriString();
             }
 
             Token token = jwtUtil.generateToken(principal.getUserInfo().getEmail());
 
-            CookieUtils.addCookie(response,"accessToken", token.getAccessToken(),3600);
+            CookieUtils.addCookie(response,"accessToken", token.getAccessToken(),1800);
+            CookieUtils.addCookieNotHttpOnly(response,"loginFlag", "True",1800);
             //CookieUtils.addCookie(response,"Authorization", "Bearer " + token.getAccessToken(),3600);
             return UriComponentsBuilder.fromUriString(targetUrl + "/")
                     //.queryParam("access_token", token.getAccessToken())

@@ -21,11 +21,25 @@ public class AmenityController {
 
     private final AmenityService amenityService;
 
-    @GetMapping
+    @GetMapping("/recommend")
     public List<ResponseAmenityDto> listAmenity() {
 
         List<ResponseAmenityDto> dtoList = new ArrayList<>();
         List<Amenity> amenityList = amenityService.readAmenityArray();
+
+        for(Amenity amenity : amenityList){
+            ResponseAmenityDto dto = new ResponseAmenityDto();
+            dtoList.add(dto.fromEntity(amenity));
+        }
+
+        return dtoList;
+    }
+
+    @GetMapping()
+    public List<ResponseAmenityDto> readAmenityAll() {
+
+        List<ResponseAmenityDto> dtoList = new ArrayList<>();
+        List<Amenity> amenityList = amenityService.readAmenityAll();
 
         for(Amenity amenity : amenityList){
             ResponseAmenityDto dto = new ResponseAmenityDto();

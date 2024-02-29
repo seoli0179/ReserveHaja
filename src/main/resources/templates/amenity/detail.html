@@ -1,39 +1,471 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Document</title>
+    <style>
+        .icon {
+            width: 15px;
+            height: 15px;
+        }
+
+        .gnb {
+            font-family: arial;
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+            outline: dashed 1px black;
+        }
+
+        .gnb-child {
+            width: 1180px;
+            height: 48px;
+            background-color: white;
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 14px;
+        }
+
+        .gnb-child div {
+            display: inline-block;
+        }
+
+        .header {
+            font-family: arial;
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+            outline: dashed 1px black;
+            background-color: #7265F0;
+        }
+
+        .header-child {
+            width: 1600px;
+            height: 48px;
+
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-child div {
+            display: inline-block;
+        }
+
+        .main-wrap {
+            height: 100px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            outline: dashed 1px black;
+        }
+
+        .inputSearch {
+            width: 340px;
+            padding-top: 11px;
+            padding-bottom: 11px;
+            padding-left: 20px;
+            background: white;
+        }
+
+        .main-service {
+            width: 100%;
+            outline: dashed 1px black;
+        }
+
+        .webtong_tab_type04 {
+            padding: 0px;
+            display: table;
+            table-layout: fixed;
+            background-color: #f1f1f1;
+        }
+
+        .webtong_tab_type04 li {
+            display: table-cell;
+        }
+
+        .webtong_tab_type04 li a {
+            padding-left: 10px;
+            padding-right: 10px;
+            display: block;
+            position: relative;
+            line-height: 40px;
+            background-color: #fff;
+            font-size: 24px;
+        }
+
+        .webtong_tab_type04 li a:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1px;
+            background: #e6e3df;
+        }
+
+        .webtong_tab_type04 li a:before,
+        .webtong_tab_type04 li a:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 35px;
+            height: 4px;
+            width: 0;
+            background-color: #fd7c82;
+        }
+
+        .webtong_tab_type04 li.on a:before,
+        .webtong_tab_type04 li:hover a:before {
+            width: 100%;
+        }
+
+        .webtong_tab_type04 li.on a,
+        .webtong_tab_type04 li:hover a {
+            color: #fd7c82;
+            font-weight: 600;
+        }
+
+        .slide {
+            width: 380px; /* 슬라이드의 너비 */
+            height: 530px; /* 슬라이드의 높이 */
+            background-color: #ffffff;
+            margin-right: 20px; /* 슬라이드 사이의 간격 */
+            border: 1px solid gray;
+        }
+
+        .slide img{
+            width: 380px; /* 슬라이드의 너비 */
+            height: 250px; /* 슬라이드의 높이 */
+            margin-bottom: 20px;
+        }
+
+        /* 스크롤바 숨기기 (선택적) */
+        #slider-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .image-container {
+            position: relative;
+        }
+
+        .tag {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 0px; /* 패딩은 예시이며 필요에 따라 조정하세요 */
+            line-height: 30px;
+            text-align: center;
+            margin-left:20px;
+            margin-top:25px;
+            margin-bottom:10px;
+            width: 64px;
+            height: 30px;
+            background-color: #F57D1D;
+            color: white;
+            font-size: 16px;
+        }
+
+        #slider2-container {
+            display: flex;
+            margin-bottom: 40px;
+        }
+
+        .slide2 {
+            flex: 0 0 auto;
+            width: 380px; /* 슬라이드의 너비 */
+            height: 313px; /* 슬라이드의 높이 */
+            background-color: #ffffff;
+            margin-right: 20px; /* 슬라이드 사이의 간격 */
+            border: 1px solid gray;
+            border-radius: 3%;
+        }
+
+        .nav {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .nav span{
+            font-size: 18px;
+            color: #000000;
+            padding-right: 24px;
+        }
+    </style>
 </head>
+
 <body>
-<div id="amenityDetail"></div>
-<div id="datepicker"></div>
-<button id="reserveButton">예약하기</button>
+
+<div class="wrapper">
+    <div class="head">
+        <div class="gnb">
+            <div class="gnb-child">
+                <div style="color: #222222;">서울특별시</div>
+                <div style="width:688px; color: #575757; font-size: 14px; text-align: center;"><img class="icon"
+                                                                                                    style="margin-right: 5px;" src="/src/main/resources/svg/megaphone_3914404.svg">2024
+                    서울영상크리에이터 9기 모집 안내 모집기간 2024.2.7.(수)~2024.2.20(화)(14일간)</div>
+                <div style="text-align: center;">
+                    <div style="color: #575757;"><a href="/">서울 소식</a></div>
+                    <div style="color: #575757;"><a href="/">응답소</a></div>
+                    <div style="color: #575757;"><a href="/">정보공개</a></div>
+                    <div style="color: #575757;"><a href="/">분야별정보</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="header-child">
+                <div style="color: #ffffff; font-size: 20px;">동행매력특별시서울</div>
+                <div style="width: 700px; text-align: center;"><a href="/" style="color: #ffffff; font-size: 20px;">공공서비스예약</a></div>
+                <div style="height: 50px;">
+                    <div id = "login" style="display: flex;"></div>
+                    <img class="icon" style="color: #ffffff;" src="\src\main\resources\svg\search_3917754.svg">
+                </div>
+            </div>
+        </div>
+        <div class="nav" style="text-align: center;">
+            <span><a href="/amenity/search">전체</a></span>
+            <span>캠핑장</span>
+            <span>다목적실</span>
+            <span>강의실</span>
+            <span>강당</span>
+            <span>회의실</span>
+            <span>주민공유공간</span>
+            <span>공연장</span>
+            <span>녹화장소</span>
+            <span>전시실</span>
+            <span>광장</span>
+            <span>청년공간</span>
+        </div>
+    </div>
+    <div class="contents" style="margin-top: 10px;">
+        <div class="main-service">
+            <div style="display: flex; width: 1180px; margin: 0 auto;">
+                <table id="table1" style="width: 100%;" >
+                    <tr>
+                        <td colspan="2">
+                            <div style="display: flex;">
+                                <div id="svcName" style="font-size: 26px;"></div>
+                                <div id="svcStateName" style="width: 60px; height: 30px; padding-top: 5px; padding-bottom: 5px; margin-left: 10px; padding-left: 10px; padding-right: 10px;  background-color: #f57d1d; border-radius: 3px; color: #ffffff;"></div>
+                                <div style="margin-left: auto;">
+                                    <button style="border-radius: 100%; height: 35px; width: 35px;">공유</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <img id="imageUrl" style="border-radius: 20px; width: 550px; height: 350px;" src="">
+                        </td>
+                        <td rowspan='2' style="vertical-align: top;" width="500px">
+                            <table id="table2" style="margin-left: 10px; background-color: #ffffff;  border-collapse: collapse;">
+                                <tr style="height: 50px; border-top: 2px solid #222222; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">대상</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td id="userTargetInfo" style="text-align: left; color: #222222; font-size: 16px;"></td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">장소</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td id="placeName" style="text-align: left; color: #222222; font-size: 16px;"> <button>지도보기</button></td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">이용기간</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td id="svcOpenDate" style="text-align: left; color: #222222; font-size: 16px;"></td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">접수기간</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td id="rcptDate" style="text-align: left; color: #222222; font-size: 16px;"></td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">선별방법</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td style="text-align: left; color: #222222; font-size: 16px;">심사</td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">모집인원</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td style="text-align: left; color: #222222; font-size: 16px;">1팀</td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">신청제한</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td style="text-align: left; color: #222222; font-size: 16px;">1회에 1팀까지 신청가능</td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">이용요금</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td style="text-align: left; color: #222222; font-size: 16px;">무료</td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">예약방법</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td style="text-align: left; color: #222222; font-size: 16px;">인터넷</td>
+                                </tr>
+                                <tr style="height: 50px; border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">문의전화</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td style="text-align: left; color: #222222; font-size: 16px;">운영팀/02-450-9356</td>
+                                </tr>
+                                <tr style=" border-bottom: 1px solid #dddddd;">
+                                    <th style="padding-left: 10px; text-align: left; color: #222222; font-size: 16px;">첨부파일</th>
+                                    <td style="width: 20px; text-align: center; color: #888888;">:</td>
+                                    <td style="text-align: left; color: #222222; font-size: 16px;">
+                                        <div>1. 사용허가신청서.hwp (39.936) KB</div>
+                                        <div>2. 사용료 반환 신청서.hwp(27.648) KB</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <div id="datepicker"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div style="display: flex; justify-content: center;">
+                                <button id="reserveButton" style="background-color: #0379d5; color: #ffffff; border-radius: 10px; font-size: 18px; width: 20%; padding-top: 10px; padding-bottom: 10px; margin-right: 10px;">예약하기</button>
+                                <button style="background-color: #ffffff; color: #222222; border-radius: 10px; font-size: 18px; width: 20%; padding-top: 10px; padding-bottom: 10px; margin-right: 10px;">공지사항</button>
+                                <button style="background-color: #ffffff; color: #222222; border-radius: 10px; font-size: 18px; width: 20%; padding-top: 10px; padding-bottom: 10px; margin-right: 10px;">문자알림</button>
+                                <button style="background-color: #495f74; color: #ffffff; border-radius: 10px; font-size: 18px; width: 20%; padding-top: 10px; padding-bottom: 10px;">목록</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div style="display: flex; justify-content: center; text-align: center; margin-top: 20px; margin-bottom: 20px;">
+                                <div style="font-size: 18px; border: 1px solid #0379d5; background-color: #ffffff; color: #0379d5; padding-top: 10px; padding-bottom: 10px; width: 33%;">이용안내</div>
+                                <div style="font-size: 18px; background-color: #dddddd; color: #888888; padding-top: 10px; padding-bottom: 10px; width: 33%;">장소안내</div>
+                                <div style="font-size: 18px; background-color: #dddddd; color: #888888; padding-top: 10px; padding-bottom: 10px; width: 33%;">이용후기(0)</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="detailInfo"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div style="line-height: 50px;  height: 50px; font-size: 15px; background-color: #222222; color: #FFFFFF; text-align: center;">개인정보처리방침 | 이메일 무단수집거부 | 뷰어프로그램 다운로드 | 사이트맵</div>
+        <div style="margin-top: 20px; color: #666666; font-size: 15px; text-align: center;">서울특별시청 04524 서울특별시 중구 세종대로 110 문의: 02) 120 (휴일, 야간)</div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">장애신고: 02-2126-4647 (평일)</div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">© Seoul Metropolitan Government all rights reserved.</div>
+    </div>
+</div>
 <script>
+
     var selectedDate = "";
     const urlParams = new URL(location.href).searchParams;
     const id = urlParams.get('id');
+
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
     $(document).ready(function () {
 
         console.log(id);
+
+        // 쿠키에서 accessToken 값을 가져옴
+        const loginFlag = getCookie("loginFlag");
+
+        // accessToken이 존재하는지 확인
+        if (loginFlag) {
+            console.log("AccessToken exists:", loginFlag);
+            $('#login').append('<div style="margin-right: 10px;"><a style="color: #ffffff; font-size: 13px;" href="/mypage">마이페이지</a></div>');
+            $('#login').append('<div><a style="color: #ffffff; font-size: 13px;" href="/auth/logout">로그아웃</a></div>');
+        } else {
+            console.log("AccessToken does not exist.");
+            $('#login').append('<a style="line-height: 4; color: #ffffff; font-size: 13px;" href="/auth/login">로그인</a>');
+        }
 
         $.ajax({
             url: '/amenity/read?id=' + id,
             type: 'GET',
             success: function (amenity) {
-                console.log(amenity)
-                var table = $('<table>').addClass('table');
-                // 속성별로 행 추가
-                table.append('<tr><th>Service Name</th><td>' + amenity.svcName + '</td></tr>' +
-                    '<tr><th>Place Name</th><td>' + amenity.placeName + '</td></tr>' +
-                    '<tr><th>Area Name</th><td>' + amenity.areaName + '</td></tr>' +
-                    '<tr><th>Service State</th><td>' + amenity.svcStateName + '</td></tr>' +
-                    '<tr><th>Details</th><td>' + amenity.detailInfo + '</td></tr>' +
-                    '<tr><th>Image</th><td><img src="' + amenity.imageUrl + '" alt="Amenity Image" style="width:100px;height:auto;"></td></tr>');
-                // 테이블을 #amenityDetail div에 추가
-                $('#amenityDetail').html(table);
+                console.log(amenity);
+
+                var head, tag;
+
+                switch (amenity.svcStateName){
+                    case "RESERVE_END" :
+                        tag = "예약종료";
+                        head = '<div style="display: flex;"><div id="svcName" style="font-size: 26px;">'+amenity.svcName+'</div>\n' +
+                            '                                <div id="svcStateName" style="height: 30px; padding: 5px; margin-left: 10px; padding-left: 10px; padding-right: 10px;  background-color: #79849A; border-radius: 3px; color: #ffffff;">'+tag+'</div>\n' +
+                            '                                <div style="margin-left: auto;">\n' +
+                            '                                    <button style="border-radius: 100%; height: 35px; width: 35px;">공유</button>\n' +
+                            '                                </div></div>'
+                        break;
+                    case "RESERVE_CLOSE" :
+                        tag = "예약종료";
+                        head = '<div style="display: flex;"><div id="svcName" style="font-size: 26px;">'+amenity.svcName+'</div>\n' +
+                            '                                <div id="svcStateName" style="height: 30px; padding: 5px; margin-left: 10px; padding-left: 10px; padding-right: 10px;  background-color: #79849A; border-radius: 3px; color: #ffffff;">'+tag+'</div>\n' +
+                            '                                <div style="margin-left: auto;">\n' +
+                            '                                    <button style="border-radius: 100%; height: 35px; width: 35px;">공유</button>\n' +
+                            '                                </div></div>';
+                        break;
+                    case "RESERVE_START" :
+                        tag = "예약중";
+                        head = '<div style="display: flex;"><div id="svcName" style="font-size: 26px;">'+amenity.svcName+'</div>\n' +
+                            '                                <div id="svcStateName" style="height: 30px; padding: 5px; margin-left: 10px; padding-left: 10px; padding-right: 10px;  background-color: #f57d1d; border-radius: 3px; color: #ffffff;">'+tag+'</div>\n' +
+                            '                                <div style="margin-left: auto;">\n' +
+                            '                                    <button style="border-radius: 100%; height: 35px; width: 35px;">공유</button>\n' +
+                            '                                </div></div>';
+                        break;
+                }
+
+
+                $('#table1 tr:first-child td:nth-child(1)').html(head);
+                $('#imageUrl').attr("src",amenity.imageUrl);
+                $('#table2 tr:first-child td:nth-child(3)').text(amenity.userTargetInfo);
+                $('#table2 tr:eq(1) td:nth-child(3)').text(amenity.placeName);
+
+                var date1 = amenity.svcOpenBeginDate.split("T");
+                var date2 = amenity.svcOpenEndDate.split("T");
+
+                $('#table2 tr:eq(2) td:nth-child(3)').text(date1[0] + " ~ " + date2[0]);
+
+                date1 = amenity.rcptBeginDate.split("T");
+                date2 = amenity.rcptEndDate.split("T");
+                $('#table2 tr:eq(3) td:nth-child(3)').text(date1[0] + " ~ " + date2[0]);
+
+                var newText = amenity.detailInfo.split('다.').join('다.<br>');
+                newText = newText.split('○').join('<br>○');
+                newText = newText.split('- ').join('<br>- ');
+                newText = newText.split('1)').join('<br>1)');
+                newText = newText.split('※').join('<br>※');
+                newText = newText.split('☞').join('<br>☞');
+                newText = newText.split('*').join('<br>*');
+
+                $('#detailInfo').html(newText).css("font-size","16px");
 
                 var roundDates = []; // 날짜를 저장할 배열
 
@@ -79,6 +511,9 @@
         location.href = "/amenity/reserve?id=" + id + "&date=" + selectedDete;
     });
 
+
+
 </script>
 </body>
+
 </html>

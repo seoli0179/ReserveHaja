@@ -7,6 +7,7 @@ import com.example.reservehaja.handler.OAuth2AuthenticationFailureHandler;
 import com.example.reservehaja.handler.OAuth2AuthenticationSuccessHandler;
 import com.example.reservehaja.service.auth.CustomOAuth2UserService;
 import com.example.reservehaja.service.auth.JwtAuthFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -53,10 +60,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         //.requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/","/auth/**","/auth/join","/js/**").permitAll()
-                        .requestMatchers("/reserve").permitAll()
-                        .requestMatchers("/amenity","/amenity/detail","/amenity/read").permitAll()
-                        .requestMatchers("/product","/product/create","/product/read","/product/update","/product/delete").permitAll()
+                        .requestMatchers("/", "/auth/login", "/auth/join", "/js/**", "/svg/**").permitAll()
+                        .requestMatchers("/amenity","/amenity/recommend", "/amenity/search", "/amenity/detail", "/amenity/read").permitAll()
+                        .requestMatchers("/product", "/product/create", "/product/read", "/product/update", "/product/delete").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptionConfig) -> exceptionConfig.authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler))
@@ -70,8 +76,8 @@ public class SecurityConfig {
                 .logout((logoutConfig) ->
                         logoutConfig.logoutSuccessHandler(customLogoutSuccessHandler)
                                 .logoutSuccessUrl("/")
-                                .logoutUrl("/logout")
-                        );
+                                .logoutUrl("/auth/logout")
+                );
 
         return http
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

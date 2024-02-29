@@ -38,6 +38,8 @@ public class Amenity {
 
     private String userTargetInfo; // 서비스 대상
 
+    private String category;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime rcptBeginDate; // 접수시작일시
 

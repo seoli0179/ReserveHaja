@@ -15,12 +15,18 @@ public class AmenityService {
     private final AmenityRepository amenityRepository;
 
     public List<Amenity> readAmenityArray() {
+        return amenityRepository.findTop12ByOrderById();
+    }
+
+    public List<Amenity> readAmenityAll() {
         return amenityRepository.findAll();
     }
 
     public Optional<Amenity> readAmenity(Long id) {
         return amenityRepository.findById(id);
     }
+
+
 
 
 }

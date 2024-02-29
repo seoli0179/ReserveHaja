@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Document</title>
+    <style>
+        .icon {
+            width: 15px;
+            height: 15px;
+        }
+
+        .gnb {
+            font-family: arial;
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+
+        }
+
+        .gnb-child {
+            width: 1180px;
+            height: 48px;
+            background-color: white;
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 14px;
+        }
+
+        .gnb-child div {
+            display: inline-block;
+        }
+
+        .header {
+            font-family: arial;
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+            background-color: #7265F0;
+        }
+
+        .header-child {
+            width: 1600px;
+            height: 48px;
+
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-child div {
+            display: inline-block;
+        }
+
+        .main-service {
+            width: 100%;
+
+        }
+
+        .webtong_tab_type04 li {
+            display: table-cell;
+        }
+
+        .webtong_tab_type04 li a {
+            padding-left: 10px;
+            padding-right: 10px;
+            display: block;
+            position: relative;
+            line-height: 40px;
+            background-color: #fff;
+            font-size: 24px;
+        }
+
+        .webtong_tab_type04 li a:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1px;
+            background: #e6e3df;
+        }
+
+        .webtong_tab_type04 li a:before,
+        .webtong_tab_type04 li a:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 35px;
+            height: 4px;
+            width: 0;
+            background-color: #fd7c82;
+        }
+
+        .webtong_tab_type04 li.on a:before,
+        .webtong_tab_type04 li:hover a:before {
+            width: 100%;
+        }
+
+        .webtong_tab_type04 li.on a,
+        .webtong_tab_type04 li:hover a {
+            color: #fd7c82;
+            font-weight: 600;
+        }
+
+        .slide img {
+            width: 380px; /* 슬라이드의 너비 */
+            height: 250px; /* 슬라이드의 높이 */
+            margin-bottom: 20px;
+        }
+
+        .nav {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .nav span {
+            font-size: 18px;
+            color: #000000;
+            padding-right: 24px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="head">
+        <div class="gnb">
+            <div class="gnb-child">
+                <div style="color: #222222;">서울특별시</div>
+                <div style="width:688px; color: #575757; font-size: 14px; text-align: center;"><img class="icon"
+                                                                                                    style="margin-right: 5px;"
+                                                                                                    src="/src/main/resources/svg/megaphone_3914404.svg">2024
+                    서울영상크리에이터 9기 모집 안내 모집기간 2024.2.7.(수)~2024.2.20(화)(14일간)
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: #575757;"><a href="/">서울 소식</a></div>
+                    <div style="color: #575757;"><a href="/">응답소</a></div>
+                    <div style="color: #575757;"><a href="/">정보공개</a></div>
+                    <div style="color: #575757;"><a href="/">분야별정보</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="header-child">
+                <div style="color: #ffffff; font-size: 20px;">동행매력특별시서울</div>
+                <div style="width: 700px; text-align: center;"><a href="/" style="color: #ffffff; font-size: 20px;">공공서비스예약</a>
+                </div>
+                <div style="height: 50px;">
+                    <div id = "login" style="display: flex;"></div>
+                    <img class="icon" style="color: #ffffff;" src="\src\main\resources\svg\search_3917754.svg">
+                </div>
+            </div>
+        </div>
+        <div class="nav" style="text-align: center;">
+            <span><a href="/amenity/search">전체</a></span>
+            <span>캠핑장</span>
+            <span>다목적실</span>
+            <span>강의실</span>
+            <span>강당</span>
+            <span>회의실</span>
+            <span>주민공유공간</span>
+            <span>공연장</span>
+            <span>녹화장소</span>
+            <span>전시실</span>
+            <span>광장</span>
+            <span>청년공간</span>
+        </div>
+    </div>
+    <div class="contents" style="margin-top: 10px;">
+        <div class="main-service">
+            <div style="display: flex; width: 1180px; margin: 0 auto; justify-content: center;">
+                <div style="margin-right: 30px;">
+                    <div></div>
+                    <div style="margin:0 auto; border-radius: 100%; background-color: #777777; width: 30px; height: 30px; color: #ffffff; text-align: center;">
+                        1
+                    </div>
+                    <div style="text-align: center; color: #555555; font-size: 15px;">나의 예약 정보</div>
+                </div>
+                <div>
+                    <div style="margin:0 auto; border-radius: 100%; background-color: #0379D5; width: 30px; height: 30px; color: #ffffff; text-align: center;">
+                        2
+                    </div>
+                    <div style="text-align: center; color: #0379D5; font-size: 15px;">예약 완료</div>
+                </div>
+            </div>
+            <div style="display: flex; width: 1180px; margin: 0 auto; justify-content: center;">
+                <div style="margin-top: 30px; font-size: 26px; width: 1180px; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                    예약 신청이 정상적으로 처리되었습니다.
+                </div>
+            </div>
+            <div style="display: flex; width: 1180px; margin: 0 auto; justify-content: center; margin-top: 10px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr height="50px" style="border-top: 1.25px solid #222222; border-bottom: 1px solid #dddddd;">
+                        <th style="font-size: 16px; background-color: #F9FAFB; border-right: 1px solid #dddddd;">예약번호
+                        </th>
+                        <td style="font-size: 16px; padding-left: 20px">
+                            <div id="reserveId"></div>
+                        </td>
+                    </tr>
+                    <tr height="50px" style="border-bottom: 1px solid #dddddd;">
+                        <th style="font-size: 16px; background-color: #F9FAFB; border-right: 1px solid #dddddd;">서비스명
+                        </th>
+                        <td style="font-size: 16px; padding-left: 20px">
+                            <div id="serviceName"></div>
+                        </td>
+                    </tr>
+                    <tr height="50px" style="border-bottom: 1px solid #dddddd;">
+                        <th style="font-size: 16px; background-color: #F9FAFB; border-right: 1px solid #dddddd;">이용일자
+                        </th>
+                        <td style="font-size: 16px; padding-left: 20px">
+                            <div id="useDate"></div>
+                        </td>
+                    </tr>
+                    <tr height="50px" style="border-bottom: 1px solid #dddddd;">
+                        <th style="font-size: 16px; background-color: #F9FAFB; border-right: 1px solid #dddddd;">이용시간
+                        </th>
+                        <td style="font-size: 16px; padding-left: 20px">
+                            <div id="useTime"></div>
+                        </td>
+                    </tr>
+                    <tr height="50px" style="border-bottom: 1px solid #dddddd;">
+                        <th style="font-size: 16px; background-color: #F9FAFB; border-right: 1px solid #dddddd;">이용인원
+                        </th>
+                        <td style="font-size: 16px; padding-left: 20px">
+                            <div id="usePeople"></div>
+                        </td>
+                    </tr>
+                    <tr height="50px" style="border-bottom: 1px solid #dddddd;">
+                        <th style="font-size: 16px; background-color: #F9FAFB; border-right: 1px solid #dddddd;">이용요금
+                        </th>
+                        <td style="font-size: 16px; padding-left: 20px">무료</td>
+                    </tr>
+                    <tr height="50px" style="border-bottom: 1px solid #dddddd;">
+                        <th style="font-size: 16px; background-color: #F9FAFB; border-right: 1px solid #dddddd;">예약상태
+                        </th>
+                        <td style="font-size: 16px; padding-left: 20px">심사중</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="display: flex; width: 1180px; margin: 0 auto; justify-content: center; margin-top: 40px;">
+                <button id="homeButton"
+                        style="padding-left: 45px; padding-right: 45px; padding-top: 15px; padding-bottom: 15px; color: #222222; font-size: 18px; background-color: #ffffff; border-color: #bbbbbb; border-radius: 10px; margin-right: 10px;">
+                    메인페이지 바로가기
+                </button>
+                <button id="detailButton"
+                        style="padding-left: 67px; padding-right: 67px; padding-top: 15px; padding-bottom: 15px; color: #ffffff; font-size: 18px; background-color: #06a29f; border-color: #bbbbbb; border-radius: 10px; margin-right: 10px;">
+                    예약 상세 보기
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div id="footer" style="margin-top: 80px;">
+        <div style="line-height: 50px;  height: 50px; font-size: 15px; background-color: #222222; color: #FFFFFF; text-align: center;">
+            개인정보처리방침 | 이메일 무단수집거부 | 뷰어프로그램 다운로드 | 사이트맵
+        </div>
+        <div style="margin-top: 20px; color: #666666; font-size: 15px; text-align: center;">서울특별시청 04524 서울특별시 중구 세종대로
+            110 문의: 02) 120 (휴일, 야간)
+        </div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">장애신고: 02-2126-4647 (평일)</div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">© Seoul Metropolitan Government all rights
+            reserved.
+        </div>
+    </div>
+</div>
+<script>
+
+
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    $('#homeButton').click(function () {
+        location.href = "/";
+    });
+
+    $(document).ready(function () {
+
+        // 쿠키에서 accessToken 값을 가져옴
+        const loginFlag = getCookie("loginFlag");
+
+        // accessToken이 존재하는지 확인
+        if (loginFlag) {
+            console.log("AccessToken exists:", loginFlag);
+            $('#login').append('<div style="margin-right: 10px;"><a style="color: #ffffff; font-size: 13px;" href="/mypage">마이페이지</a></div>');
+            $('#login').append('<div><a style="color: #ffffff; font-size: 13px;" href="/auth/logout">로그아웃</a></div>');
+        } else {
+            console.log("AccessToken does not exist.");
+            $('#login').append('<a style="line-height: 4; color: #ffffff; font-size: 13px;" href="/auth/login">로그인</a>');
+        }
+
+        const urlParams = new URL(location.href).searchParams;
+        const id = urlParams.get('id');
+
+        $('#detailButton').click(function () {
+            location.href = "/reserve/detail?id=" + id;
+        });
+
+        $.ajax({
+            url: '/reserve/read?id=' + id,
+            type: 'GET',
+            success: function (response) {
+                console.log(response);
+
+                $('#serviceName').text(response.serviceName);
+                $('#useDate').text(response.useDate);
+                $('#useTime').text(response.useBeginTime + " ~ " + response.useEndTime);
+                $('#usePeople').text(response.usePeople + "명");
+
+                var state;
+
+                switch (response.reserveState) {
+                    case "RESERVE_JUDGE" :
+                        state = "심사중";
+                        break;
+                    case "RESERVE_COMPLETE" :
+                        state = "예약완료";
+                        break;
+                    case "RESERVE_CANCEL" :
+                        state = "예약취소";
+                        break;
+                }
+
+                $('#reserveState').text(state);
+                $('#reserveId').text(response.reserveId);
+
+            }
+        });
+
+
+        $("#datepicker").datepicker({
+            onSelect: function (dateText, inst) {
+                console.log("Selected date: " + dateText);
+                selectedDete = dateText;
+                // 여기에 날짜 선택 시 실행할 코드를 추가합니다.
+                // 예: 선택된 날짜를 사용하여 서버로 요청을 보내거나, 페이지의 다른 부분을 업데이트합니다.
+            }
+        });
+
+    });
+
+
+</script>
+</body>
+
+</html>

@@ -13,57 +13,72 @@ public class PageController {
 
     @GetMapping("/auth/login")
     public String loginPage() {
-        return "/oauth2/login";
+        return "oauth2/login";
     }
 
     @GetMapping("/auth/join")
     public String joinPage() {
-        return "/oauth2/join";
+        return "oauth2/join";
     }
 
     @GetMapping("/product")
     public String productIndexPage() {
-        return "/product/index";
+        return "product/index";
     }
 
     @GetMapping("/product/create")
     public String productCreatePage() {
-        return "/product/create";
+        return "product/create";
     }
 
     @GetMapping("/product/read")
     public String productReadPage() {
-        return "/product/read";
+        return "product/read";
     }
 
     @GetMapping("/product/update")
     public String productUpdatePage() {
-        return "/product/update";
+        return "product/update";
     }
 
     @GetMapping("/product/delete")
     public String productDeletePage() {
-        return "/product/delete";
+        return "product/delete";
     }
 
     @GetMapping("/amenity/detail")
     public String amenityDetailPage() {
-        return "/amenity/detail";
+        return "amenity/detail";
     }
 
     @GetMapping("/amenity/reserve")
     public String amenityReversePage() {
-        return "/amenity/reserve";
+        return "amenity/reserve";
+    }
+
+    @GetMapping("/amenity/search")
+    public String amenitySearchPage() {
+        return "amenity/search";
     }
 
     @GetMapping("/mypage")
     public String mypageIndexPage() {
-        return "/mypage/index";
+        return "mypage/reserve";
     }
 
     @GetMapping("/mypage/reserve")
     public String mypageReservePage() {
-        return "/mypage/reserve";
+        return "mypage/reserve";
+    }
+
+    @GetMapping("/reserve/success")
+    public String reserveSuccessPage() {
+        return "reserve/receipt";
+    }
+
+    @GetMapping("/reserve/detail")
+    public String reserveDetailPage() {
+        return "reserve/detail";
     }
 
 }

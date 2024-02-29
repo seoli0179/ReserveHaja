@@ -17,6 +17,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 쿠키를 삭제합니다. 여기서는 쿠키 이름을 'myCookieName'으로 가정합니다.
         CookieUtils.deleteCookie(request, response, "accessToken");
+        CookieUtils.deleteCookie(request, response, "loginFlag");
         // 로그아웃 후 리다이렉트할 URL을 설정합니다.
         response.sendRedirect("/");
     }

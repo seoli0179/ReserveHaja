@@ -1,116 +1,639 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <title>FullCalendar Example</title>
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet'/>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet"/>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
-    <script>
-        const urlParams = new URL(location.href).searchParams;
-        const id = urlParams.get('id');
-        $(document).ready(function () {
-            var amenityData = {
-                "id": 1,
-                // 기타 필드 생략...
-                "roundList": [
-                    {
-                        "id": 1,
-                        "roundCellList": [
-                            {"id": 1, "roundCellDate": "2024-02-01"},
-                            {"id": 2, "roundCellDate": "2024-02-02"},
-                            {"id": 3, "roundCellDate": "2024-02-03"}
-                        ]
-                    },
-                    {
-                        "id": 2,
-                        "roundCellList": [
-                            {"id": 4, "roundCellDate": "2024-02-01"}
-                        ]
-                    }
-                ]
-            };
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Document</title>
+    <style>
+        .icon {
+            width: 15px;
+            height: 15px;
+        }
 
-            // 날짜별 roundCellDate 개수 계산
-            var dateCounts = {};
-            amenityData.roundList.forEach(function (round) {
-                round.roundCellList.forEach(function (cell) {
-                    if (!dateCounts[cell.roundCellDate]) {
-                        dateCounts[cell.roundCellDate] = 0;
-                    }
-                    dateCounts[cell.roundCellDate] += 1;
-                });
-            });
+        .gnb {
+            font-family: arial;
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+        }
 
-            // FullCalendar 이벤트 객체 생성
-            var events = Object.keys(dateCounts).map(function (date) {
-                return {
-                    title: dateCounts[date].toString(), // 개수를 제목으로 사용
-                    start: date
-                };
-            });
+        .gnb-child {
+            width: 1180px;
+            height: 48px;
+            background-color: white;
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
 
-            // FullCalendar 초기화
-            $('#calendar').fullCalendar({
-                events: events,
-                dayRender: function (day, cell) {
-                    var dateStr = day.format('YYYY-MM-DD');
-                    if (!dateCounts[dateStr]) {
-                        // 데이터가 없는 날짜 비활성화
-                        cell.css("background-color", "#eee");
-                        cell.css("pointer-events", "none");
-                        cell.css("opacity", "0.6");
-                    }
-                },
-                dayClick: function (date, jsEvent, view) {
-                    console.log('Clicked date: ' + date.format());
-                    $.ajax({
-                        url: '/round/read?id=' + id + "&date=" + date.format(),
-                        type: 'GET',
-                        success: function (data) {
-                            console.log(data);
-                            var table = $('<table>').addClass('table');
-                            // 속성별로 행 추가
-                            data.forEach(function (item) {
-                                if (item.state === true) {
-                                    table.append('<tr><td>' + item.roundName + '<button onclick="AddReserve(' + item.roundCellId + ')">예약하기</button></td></tr>');
-                                } else {
-                                    table.append('<tr><td>' + item.roundName + '<button disabled onclick="AddReserve(' + item.roundCellId + ')">예약하기</button></td></tr>');
-                                }
-                            });
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-                            $('#roundDetail').html(table);
-                        }
-                    });
-                    // 여기에 추가적인 동작을 구현할 수 있습니다.
+            font-size: 14px;
+        }
+
+        .gnb-child div {
+            display: inline-block;
+        }
+
+        .header {
+            font-family: arial;
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+            background-color: #7265F0;
+        }
+
+        .header-child {
+            width: 1600px;
+            height: 48px;
+
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-child div {
+            display: inline-block;
+        }
+
+
+        .main-service {
+            width: 100%;
+        }
+
+        .webtong_tab_type04 li {
+            display: table-cell;
+        }
+
+        .webtong_tab_type04 li a {
+            padding-left: 10px;
+            padding-right: 10px;
+            display: block;
+            position: relative;
+            line-height: 40px;
+            background-color: #fff;
+            font-size: 24px;
+        }
+
+        .webtong_tab_type04 li a:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1px;
+            background: #e6e3df;
+        }
+
+        .webtong_tab_type04 li a:before,
+        .webtong_tab_type04 li a:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 35px;
+            height: 4px;
+            width: 0;
+            background-color: #fd7c82;
+        }
+
+        .webtong_tab_type04 li.on a:before,
+        .webtong_tab_type04 li:hover a:before {
+            width: 100%;
+        }
+
+        .webtong_tab_type04 li.on a,
+        .webtong_tab_type04 li:hover a {
+            color: #fd7c82;
+            font-weight: 600;
+        }
+
+        .slide img {
+            width: 380px; /* 슬라이드의 너비 */
+            height: 250px; /* 슬라이드의 높이 */
+            margin-bottom: 20px;
+        }
+
+
+        .nav {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .nav span {
+            font-size: 18px;
+            color: #000000;
+            padding-right: 24px;
+        }
+
+        .round {
+            padding-left: 10px;
+            font-size: 14px;
+            color: #222222;
+        }
+
+        .round:hover {
+            text-decoration: underline;
+            color: #0379D5;
+            cursor: pointer;
+        }
+
+        .round-selected {
+            color: #0379D5;
+        }
+
+        .round-disable {
+            padding-left: 10px;
+            font-size: 14px;
+            color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="head">
+        <div class="gnb">
+            <div class="gnb-child">
+                <div style="color: #222222;">서울특별시</div>
+                <div style="width:688px; color: #575757; font-size: 14px; text-align: center;"><img class="icon"
+                                                                                                    style="margin-right: 5px;"
+                                                                                                    src="/src/main/resources/svg/megaphone_3914404.svg">2024
+                    서울영상크리에이터 9기 모집 안내 모집기간 2024.2.7.(수)~2024.2.20(화)(14일간)
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: #575757;"><a href="/">서울 소식</a></div>
+                    <div style="color: #575757;"><a href="/">응답소</a></div>
+                    <div style="color: #575757;"><a href="/">정보공개</a></div>
+                    <div style="color: #575757;"><a href="/">분야별정보</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="header-child">
+                <div style="color: #ffffff; font-size: 20px;">동행매력특별시서울</div>
+                <div style="width: 700px; text-align: center;"><a href="/" style="color: #ffffff; font-size: 20px;">공공서비스예약</a>
+                </div>
+                <div style="height: 50px;">
+                    <div id = "login" style="display: flex;"></div>
+                    <img class="icon" style="color: #ffffff;" src="\src\main\resources\svg\search_3917754.svg">
+                </div>
+            </div>
+        </div>
+        <div class="nav" style="text-align: center;">
+            <span><a href="/amenity/search">전체</a></span>
+            <span>캠핑장</span>
+            <span>다목적실</span>
+            <span>강의실</span>
+            <span>강당</span>
+            <span>회의실</span>
+            <span>주민공유공간</span>
+            <span>공연장</span>
+            <span>녹화장소</span>
+            <span>전시실</span>
+            <span>광장</span>
+            <span>청년공간</span>
+        </div>
+    </div>
+    <div class="contents" style="margin-top: 10px;">
+        <div class="main-service">
+            <div style="display: flex; width: 1180px; margin: 0 auto; justify-content: center;">
+                <div style="margin-right: 30px;">
+                    <div></div>
+                    <div style="margin:0 auto; border-radius: 100%; background-color: #0379D5; width: 30px; height: 30px; color: #ffffff; text-align: center;">
+                        1
+                    </div>
+                    <div style="text-align: center; color: #0379D5; font-size: 15px;">나의 예약 정보</div>
+                </div>
+                <div>
+                    <div style="margin:0 auto; border-radius: 100%; background-color: #777777; width: 30px; height: 30px; color: #ffffff; text-align: center;">
+                        2
+                    </div>
+                    <div style="text-align: center; color: #555555; font-size: 15px;">예약 완료</div>
+                </div>
+            </div>
+            <div style="display: flex; width: 1180px; margin: 0 auto; justify-content: center;">
+                <div id="svcName"
+                     style="background-color: #dddddd; border-top: 2px solid #555555; font-size: 23px; border-bottom: 1px solid #bbbbbb; width: 1180px; text-align: center; padding-top: 10px; padding-bottom: 10px;"></div>
+            </div>
+            <div style="display: flex; width: 1180px; margin: 0 auto; justify-content: center; margin-top: 15px;">
+                <table>
+                    <tr>
+                        <td style="width: 850px; padding-right:35px;">
+                            <div style="border-bottom: 1px solid #bbbbbb; color: #000000; font-size: 20px;">예약 날짜 / 회차
+                            </div>
+                            <div style="margin-top: 15px; padding: 20px; border: 2px solid #dddddd; border-radius: 10px;">
+                                <div style="font-size: 15px; color: #F57D1D; display: flex;">
+                                    <div style="margin-right: 6px; font-size: 12px; width: 17px; height: 17px; background-color: orange; border-radius: 100%; color:#ffffff; text-align: center;">
+                                        !
+                                    </div>
+                                    <div>유의사항</div>
+                                </div>
+                                <div style="font-size: 15px;">회차 선택은 원하는 시간대를 선택하시면 됩니다. (단위 시간)</div>
+                                <div style="font-size: 15px;">예약 신청 후, <span style="font-size: 15px; color: red;">예약 신청 완료 알림톡</span>이
+                                    오지 않은 경우, <span style="font-size: 15px; color: #0379D5;">[마이페이지 > 나의 예약 내역]</span>
+                                    에서 <span style="font-size: 15px; color: red;">예약 신청 완료 여부를 확인</span> 바랍니다.
+                                </div>
+                            </div>
+                            <div style="display: flex; margin-top: 15px; justify-content: center;">
+                                <div id="datepicker"></div>
+                                <div style="margin-left: 25px; width: 280px; border: 1px solid #222222;">
+                                    <div style="background-color: #9650EC; color: #ffffff; padding: 5px; padding-left: 10px; margin-bottom: 10px; font-size: 16px;">
+                                        회차선택
+                                    </div>
+                                    <div id="round-container">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div style=" margin-top: 15px;border-bottom: 1px solid #bbbbbb; color: #000000; font-size: 20px;">
+                                이용인원
+                            </div>
+                            <div style="display: flex; background-color: #dddddd; margin-top: 15px; padding: 15px;">
+                                <div style="font-size: 16px;">일반<br>3시간</div>
+                                <div style="margin-left: auto;">0원</div>
+                                <div style="margin-left:10px; display: flex;">
+                                    <button style="width: 35px; height: 35px;">-</button>
+                                    <div style="background-color: #0379D5; color: #fff; width: 35px; font-size: 15px; height: 35px;text-align: center; line-height: 35px;">
+                                        1
+                                    </div>
+                                    <button style="width: 35px; height: 35px;">+</button>
+                                </div>
+                            </div>
+                            <div style="display: flex; border-bottom: 1px solid #bbbbbb;margin-top: 15px;">
+                                <div style="   color: #000000; font-size: 20px;">신청자 정보</div>
+                                <div style="margin-left: auto; font-size: 13px; color: red;">*필수 입력항목</div>
+                            </div>
+                            <div>
+                                <table style="margin-top: 15px; width: 100%; border-collapse: collapse;">
+                                    <tr style="height: 40px; border-top: 1px solid #000000; border-bottom: 1px solid #bbbbbb;">
+                                        <th style="font-size: 15px; background-color: #dddddd; text-align: center;">이름
+                                        </th>
+                                        <td style="padding-left: 10px; font-size: 15px;">
+                                            <div id="username">홍길동</div>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 40px; border-bottom: 1px solid #bbbbbb;">
+                                        <th style="font-size: 15px; background-color: #dddddd; text-align: center;">
+                                            휴대폰
+                                        </th>
+                                        <td style="padding-left: 10px; font-size: 15px;">
+                                            <div id="phone">010-1234-5678</div>
+                                        </td>
+                                    </tr>
+                                    <tr style="height: 40px; border-bottom: 1px solid #bbbbbb;">
+                                        <th style="font-size: 15px; background-color: #dddddd; text-align: center;">
+                                            이메일
+                                        </th>
+                                        <td style="padding-left: 10px; font-size: 15px;">
+                                            <div id="email">email@email.com</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div style="border-bottom: 1px solid #bbbbbb; margin-top: 15px;  color: #000000; font-size: 20px;">
+                                동의절차
+                            </div>
+                            <div style="margin-top: 15px; margin-bottom:10px;  color: #000000; font-size: 17px;">개인정보 수집
+                                및 이용안내 <span style="color:red;">(필수)</span></div>
+                            <div style="border: 1px solid #dddddd; background-color: #F5F7F9; font-size: 12px; padding: 15px; border-radius: 10px;">
+                                ○ 개인정보 처리 목적<br><br>
+                                ① "서울시 공공서비스 예약 홈페이지(이하 홈페이지)"는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는
+                                개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라
+                                별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br><br>
+
+                                1. 공공서비스 예약자 접수시 예약신청서에 입력하시는 정보는 예약 접수 처리와 예약정보 안내를 위한 목적으로 수집 및
+                                이용되며, 또한 서비스 통계 및 만족도 조사 등의 정책 활용 등을 목적으로 개인정보를 이용하고 있습니다.<br>
+                                2. 공공서비스 유료 서비스 예약자의 결제시 예약자의 결제 및 취소 내역을 확인하기 위한 목적으로 수집 및 이용하고
+                                있습니다. <br>
+                                3. 간편 아이디로 로그인시 접속자 통계자료 등의 목적으로 개인정보를 이용하고 있습니다.<br>
+                                4. 비대면 자격검증시 입력되는 주민번호는 수집하지 않고, 회신 결과내역만 이용하고 있습니다.<br><br>
+
+                                ② 서울시는 개인정보 보호법 제32조에 따라 등록․공개하는 개인정보파일의 처리목적은 다음과 같습니다. <br><br>
+                                <div class="tbl_scroll">
+                                    <table class="tableB">
+                                        <caption>순번, 개인정보파일의 명칭, 운영근거/처리목적, 개인정보파일에 기록되는 개인정보의 항목 등의
+                                            정보를 나타내는 표
+                                        </caption>
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">순번</th>
+                                            <th scope="col">개인정보파일의 명칭</th>
+                                            <th scope="col">운영근거 / 처리목적</th>
+                                            <th scope="col">개인정보파일에 기록되는 개인정보의 항목</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>공공서비스 예약자 정보</td>
+                                            <td>정보주체의 동의/예약자 접수 처리, 예약 안내, 취소 안내</td>
+                                            <td>성명(단체명), 휴대폰 번호, 이메일, 주소(일부 필수)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>공공서비스 예약자 결제 정보</td>
+                                            <td>전자상거래 등에서의 소비자보호에 관한 법률/유료 서비스의 결제, 취소 내역 확인
+                                            </td>
+                                            <td>성명, 이메일, 카드번호, 환불계좌번호(선택)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>SNS 간편 로그인</td>
+                                            <td>정보주체의 동의/홈페이지 접속</td>
+                                            <td>성명, 휴대폰 번호</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>휴대폰 간편 로그인</td>
+                                            <td>정보주체의 동의/홈페이지 접속</td>
+                                            <td>성명, 휴대폰 번호</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>공공서비스 예약자 정보</td>
+                                            <td>'서울특별시 청년활동지원센터' 와 '자치구별 서울청년센터' 관련 예약서비스 신청 시
+                                                청년지원 CRM 상담 지원
+                                            </td>
+                                            <td>성명, 휴대폰번호, 전화번호, 주소</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                                ○ 개인정보 처리 및 보유기간<br>
+                                ① 서울시는 법령에 따른 개인정보 보유․이용기간 또는 정보주체로부터 개인정보를 수집시에 동의받은 개인정보 보유․이용기간
+                                내에서 개인정보를 처리․보유합니다. <br>
+                                ② 각각의 개인정보 처리 및 보유 기간은 다음과 같습니다. <br>
+                                가. 홈페이지 회원 탈퇴, SNS 간편 로그인 연결 해제, 휴대폰 간편 로그인 아래기간 경과시 개인정보 삭제<br>
+                                - 예약자 정보 6개월간 보관 후 즉시 파기 : 성명(단체명), 휴대폰 번호, 이메일, 주소<br>
+                                - 예약자 결제 정보 5년 보관 후 즉시 파기 : 성명, 이메일, 카드번호, 환불계좌번호<br>
+                                - SNS 간편 로그인 정보 6개월간 보관 후 즉시 파기 : 성명, 휴대폰 번호<br>
+                                - 휴대폰 간편 로그인 정보 6개월간 보관 후 즉시 파기 : 성명, 휴대폰 번호<br>
+                                나. '서울특별시 청년활동지원센터' 와 '자치구별 서울청년센터' 서비스 예약 시 청년지원 CRM 상담지원을 위한 예약자
+                                정보<br>
+                                - 성명, 휴대폰번호, 전화번호, 주소 (청년 연령 도달 후 파기)<br><br>
+                                ○ 동의를 거부할 권리가 있다는 사실과 동의 거부에 따른 불이익 내용<br>
+                                ① 공공서비스통합예약 홈페이지에서 수집하는 개인정보에 대해 동의를 거부할 권리가 있으며, 동의 거부 시에는 예약 서비스
+                                이용이 제한됩니다. <br><br>
+                            </div>
+                            <div style="display: flex; margin-top: 10px;">
+                                <div style="margin-left: auto; font-size: 16px;">
+                                    <input type="checkbox">동의합니다.
+                                </div>
+                            </div>
+                            <div style=" margin-top: 15px; margin-bottom:10px; color: #000000; font-size: 20px;">개인정보 제
+                                3자 제공 <span style="color:red;">(필수)</span></div>
+                            <div style="border: 1px solid #dddddd; background-color: #F5F7F9; font-size: 12px;  padding: 15px; border-radius: 10px;">
+                                ○ 개인정보 제3자 제공<br><br>
+                                ① 서울시 홈페이지를 이용할 경우 개인정보보호법 제17조에 따라 아래와 같은 사항을 안내하고 동의를 받아 귀하의 개인정보를
+                                각 구청 및 기관에서 이용 할 수 있도록 합니다.<br><br>
+                                1. 개인정보를 제공받는자 : 서울시, 서울시 산하 공사·공단·출자·출연기관 및 25개 자치구<br><br>
+                                2. 개인정보를 제공받는 자의 이용 목적 : 홈페이지를 통해 수집 되어진 예약정보 이용 및 처리 할 수 있도록
+                                합니다.<br><br>
+                                3. 개인정보 제공 항목<br>
+                                - 공공서비스 예약자 정보 : 성명(단체명), 휴대폰 번호, 이메일, 주소(일부 필수)<br>
+                                - 공공서비스 예약자 결제 정보 : 성명, 이메일, 카드번호, 환불계좌번호(선택)<br>
+                                - SNS 간편 로그인 정보 : 성명, 휴대폰 번호<br>
+                                - 휴대폰 간편 로그인 정보 : 성명, 휴대폰 번호<br>
+                                - 청년지원 CRM 상담지원을 위한 예약자 정보 : 성명, 휴대폰번호, 전화번호, 주소 (청년 연령 도달 후
+                                파기)<br><br>
+                                4. 개인정보 보유 및 이용 기간<br>
+                                가. 홈페이지 회원 탈퇴 및 간편 로그인 연결 해제 후 개인정보 삭제<br>
+                                - 예약자 정보 6개월간 보관 후 즉시 파기 : 성명(단체명), 휴대폰 번호, 이메일, 주소<br>
+                                - 예약자 결제 정보 5년 보관 후 즉시 파기 : 성명, 이메일, 카드번호, 환불계좌번호<br>
+                                - SNS 간편 로그인 정보 6개월간 보관 후 즉시 파기 : 성명, 휴대폰 번호<br>
+                                - 휴대폰 간편 로그인 정보 6개월간 보관 후 즉시 파기 : 성명, 휴대폰 번호<br>
+                                나.'서울특별시 청년활동지원센터' 와 '자치구별 서울청년센터' 서비스 예약 시 청년지원 CRM 상담지원을 위한 예약자
+                                정보<br>
+                                - 청년 연령 도달 시 까지<br><br>
+                                5. 동의를 거부할 권리가 있다는 사실과 동의 거부에 따른 불이익 내용 : 홈페이지에서 수집하는 개인정보에 대해 동의를
+                                거부할 권리가 있으며, 동의 거부 시에는 예약 서비스 이용이 제한됩니다.<br><br>
+                            </div>
+                            <div style="display: flex; margin-top: 10px;">
+                                <div style="margin-left: auto; font-size: 16px;">
+                                    <input type="checkbox" style="margin-left: auto; ">동의합니다.
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: center; border: 1px solid #dddddd; margin-top:20px; padding-top:10px; padding-bottom: 10px;">
+                                <input type="checkbox">전체동의
+                            </div>
+                        </td>
+                        <td valign="top">
+                            <div style="background-color: #EFF4FB; padding:20px;">
+                                <div style="width: 100%; border-bottom: 1px solid #005ACF;">나의 예약 정보</div>
+                                <div id="svcName2" style="margin-top:10px; font-size: 15px; color: #005ACF;"></div>
+                                <div style="margin-top:10px; display: flex;">
+                                    <div style="font-size: 14px;">이용일자</div>
+                                    <div id="useDate" style="margin-left: auto; font-size: 14px;"></div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="font-size: 14px;">이용회차</div>
+                                    <div id="useRound" style="margin-left: auto; font-size: 14px;"></div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="font-size: 14px;">취소기간</div>
+                                    <div id="cancelDate" style="margin-left: auto; font-size: 14px;"></div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="font-size: 14px;">취소수수료</div>
+                                    <div style="margin-left: auto; font-size: 14px;">없음
+                                        <button>상세보기</button>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px; padding:15px; background-color: #fff;">
+                                    <div style="font-size: 16px; border-bottom: 1px solid #dddddd; margin-bottom: 10px;">
+                                        결제 금액
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="font-size: 14px;">이용인원</div>
+                                        <div style="margin-left: auto; font-size: 14px;">1명</div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="font-size: 14px;">이용요금</div>
+                                        <div style="margin-left: auto; font-size: 14px;">0 원</div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="font-size: 14px;">할인/할증</div>
+                                        <div style="margin-left: auto; font-size: 14px;">0 원</div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="margin-left: auto; font-size: 14px; margin-top:20px;">총 결제금액</div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="margin-left: auto; font-size: 20px;">0 원</div>
+                                    </div>
+
+                                </div>
+                                <button id="reserveButton"
+                                        style="width: 100%; margin-top:15px; padding-top:10px; padding-bottom: 10px; font-size: 16px; color: #ffffff; border-radius: 10px; background-color: #0379D5">
+                                    예약하기
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="footer" style="margin-top: 80px;">
+        <div style="line-height: 50px;  height: 50px; font-size: 15px; background-color: #222222; color: #FFFFFF; text-align: center;">
+            개인정보처리방침 | 이메일 무단수집거부 | 뷰어프로그램 다운로드 | 사이트맵
+        </div>
+        <div style="margin-top: 20px; color: #666666; font-size: 15px; text-align: center;">서울특별시청 04524 서울특별시 중구 세종대로
+            110 문의: 02) 120 (휴일, 야간)
+        </div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">장애신고: 02-2126-4647 (평일)</div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">© Seoul Metropolitan Government all rights
+            reserved.
+        </div>
+    </div>
+</div>
+<script>
+
+    const urlParams = new URL(location.href).searchParams;
+    const id = urlParams.get('id');
+
+    var selectRoundCellId;
+
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    $('#reserveButton').click(function () {
+        var formData = {
+            id: selectRoundCellId
+        };
+
+        $.ajax({
+            url: '/reserve',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            success: function (response) {
+                //alert(response);
+                if (response > -1) {
+                    location.href = "/reserve/success?id=" + response;
                 }
-            });
+                else {
+                    alert("예약에 실패했습니다.");
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+
+        // 쿠키에서 accessToken 값을 가져옴
+        const loginFlag = getCookie("loginFlag");
+
+        // accessToken이 존재하는지 확인
+        if (loginFlag) {
+            console.log("AccessToken exists:", loginFlag);
+            $('#login').append('<div style="margin-right: 10px;"><a style="color: #ffffff; font-size: 13px;" href="/mypage">마이페이지</a></div>');
+            $('#login').append('<div><a style="color: #ffffff; font-size: 13px;" href="/auth/logout">로그아웃</a></div>');
+        } else {
+            console.log("AccessToken does not exist.");
+            $('#login').append('<a style="line-height: 4; color: #ffffff; font-size: 13px;" href="/auth/login">로그인</a>');
+        }
+
+        $.ajax({
+            url: '/amenity/read?id=' + id,
+            type: 'GET',
+            success: function (amenity) {
+                console.log(amenity);
+
+                $('#svcName').text(amenity.svcName);
+                $('#svcName2').text(amenity.svcName);
+
+                var roundDates = []; // 날짜를 저장할 배열
+
+                amenity.roundList.forEach(function (round) {
+                    round.roundCellList.forEach(function (roundCell) {
+                        // Date 형식으로 변환하여 배열에 추가
+                        var date = new Date(roundCell.roundCellDate);
+                        var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                        roundDates.push(formattedDate);
+                    });
+                });
+
+                console.log(roundDates);
+
+                // datepicker 초기화 및 설정
+                $("#datepicker").datepicker({
+                    beforeShowDay: function (date) {
+                        var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+                        if ($.inArray(formattedDate, roundDates) != -1) {
+                            return [true]; // 날짜 표시
+                        } else {
+                            return [false];
+                        }
+                    },
+                    onSelect: function (dateText, inst) {
+                        console.log("Selected date: " + dateText);
+                        selectedDete = moment(dateText, "MM/DD/YYYY").format("YYYY-MM-DD");
+
+
+                        $.ajax({
+                            url: '/round/read?id=' + id + "&date=" + selectedDete,
+                            type: 'GET',
+                            success: function (data) {
+                                console.log(data);
+
+                                $('#useDate').text(moment(dateText, "MM/DD/YYYY").format("YYYY.MM.DD"));
+
+                                $('#round-container').empty();
+                                // 속성별로 행 추가
+                                data.forEach(function (item) {
+                                    var round;
+
+                                    if (item.state === true) {
+                                        console.log(item.roundCellId);
+                                        round = $('<div>').addClass('round').attr('id', 'roundCellId_' + item.roundCellId).text(item.roundName).data("roundCellId", item.roundCellId);
+                                    } else {
+                                        round = $('<div>').addClass('round-disable').text(item.roundName);
+                                    }
+
+                                    $('#round-container').append(round);
+
+                                    $('.round').on('click', function () {
+                                        // $(this)를 사용하여 클릭된 div에 대한 작업 수행
+                                        $('#useRound').text($(this).text());
+                                        //alert('Div Clicked! ID: ' + $(this).attr('id').replace("roundCellId_", ""));
+                                        $(this).addClass('round-selected');
+                                        selectRoundCellId = $(this).attr('id').replace("roundCellId_", "");
+                                    });
+                                });
+
+                            }
+                        });
+
+                    }
+                });
+
+            },
+            error: function (error) {
+                console.log('Error:', error);
+            }
         });
 
-        function AddReserve(id) {
+    });
 
-            var formData = {
-                id: id
-            };
 
-            $.ajax({
-                url: '/reserve',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                success: function (response) {
-                    if(response === true){
-                        location.href = "/mypage/reserve"
-                    }
-                    alert(response);
-                }
-            });
-        }
-    </script>
-</head>
-<body>
-<div id="calendar"></div>
-<div id="roundDetail"></div>
+</script>
 </body>
+
 </html>

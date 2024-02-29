@@ -21,6 +21,7 @@ public class ResponseAmenityDto {
     private LocalDateTime rcptEndDate; // 접수종료일시
     private LocalDateTime svcOpenBeginDate; // 서비스개시 시작일시
     private LocalDateTime svcOpenEndDate; // 서비스개시 종료일시
+    private String category;
 
     public ResponseAmenityDto fromEntity(Amenity amenity){
 
@@ -33,6 +34,7 @@ public class ResponseAmenityDto {
         this.rcptEndDate = amenity.getRcptEndDate();
         this.svcOpenBeginDate = amenity.getSvcOpenBeginDate();
         this.svcOpenEndDate = amenity.getRcptEndDate();
+        this.category = amenity.getCategory();
 
         return this;
 

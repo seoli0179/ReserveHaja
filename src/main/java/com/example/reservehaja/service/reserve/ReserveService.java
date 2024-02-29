@@ -22,7 +22,7 @@ public class ReserveService {
     private final UserRepository userRepository;
     private final RoundCellRepository roundCellRepository;
 
-    public boolean createReserve(Long id, String username) {
+    public Long createReserve(Long id, String username) {
 
         Reserve reserve = new Reserve();
 
@@ -36,14 +36,14 @@ public class ReserveService {
                     reserve.setReserveStartDate(LocalDateTime.now());
                     reserve.setRoundCell(roundCell.get());
                     reserveRepository.save(reserve);
-                    return true;
+                    return reserve.getId();
                 }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        return false;
+        return -1L;
     }
 
     public List<Reserve> readReserveArray(String username) {
@@ -65,6 +65,12 @@ public class ReserveService {
             System.out.println(e.getMessage());
         }
         return false;
+
+    }
+
+    public Optional<Reserve> readReserve(String username, Long id) {
+
+        return reserveRepository.findByIdAndUser_UserId(id, username);
 
     }
 }
