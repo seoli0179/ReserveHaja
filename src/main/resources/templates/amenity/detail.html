@@ -21,7 +21,6 @@
             font-size: 24px;
             width: 100%;
             height: 48px;
-            outline: dashed 1px black;
         }
 
         .gnb-child {
@@ -47,7 +46,6 @@
             font-size: 24px;
             width: 100%;
             height: 48px;
-            outline: dashed 1px black;
             background-color: #7265F0;
         }
 
@@ -67,33 +65,8 @@
             display: inline-block;
         }
 
-        .main-wrap {
-            height: 100px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            outline: dashed 1px black;
-        }
-
-        .inputSearch {
-            width: 340px;
-            padding-top: 11px;
-            padding-bottom: 11px;
-            padding-left: 20px;
-            background: white;
-        }
-
         .main-service {
             width: 100%;
-            outline: dashed 1px black;
-        }
-
-        .webtong_tab_type04 {
-            padding: 0px;
-            display: table;
-            table-layout: fixed;
-            background-color: #f1f1f1;
         }
 
         .webtong_tab_type04 li {
@@ -144,59 +117,10 @@
             font-weight: 600;
         }
 
-        .slide {
-            width: 380px; /* 슬라이드의 너비 */
-            height: 530px; /* 슬라이드의 높이 */
-            background-color: #ffffff;
-            margin-right: 20px; /* 슬라이드 사이의 간격 */
-            border: 1px solid gray;
-        }
-
         .slide img{
             width: 380px; /* 슬라이드의 너비 */
             height: 250px; /* 슬라이드의 높이 */
             margin-bottom: 20px;
-        }
-
-        /* 스크롤바 숨기기 (선택적) */
-        #slider-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .image-container {
-            position: relative;
-        }
-
-        .tag {
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 0px; /* 패딩은 예시이며 필요에 따라 조정하세요 */
-            line-height: 30px;
-            text-align: center;
-            margin-left:20px;
-            margin-top:25px;
-            margin-bottom:10px;
-            width: 64px;
-            height: 30px;
-            background-color: #F57D1D;
-            color: white;
-            font-size: 16px;
-        }
-
-        #slider2-container {
-            display: flex;
-            margin-bottom: 40px;
-        }
-
-        .slide2 {
-            flex: 0 0 auto;
-            width: 380px; /* 슬라이드의 너비 */
-            height: 313px; /* 슬라이드의 높이 */
-            background-color: #ffffff;
-            margin-right: 20px; /* 슬라이드 사이의 간격 */
-            border: 1px solid gray;
-            border-radius: 3%;
         }
 
         .nav {
@@ -484,7 +408,7 @@
                 $("#datepicker").datepicker({
                     beforeShowDay: function (date) {
                         var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
-                        if ($.inArray(formattedDate, roundDates) != -1) {
+                        if ($.inArray(formattedDate, roundDates) !== -1) {
                             return [true]; // 날짜 표시
                         } else {
                             return [false];

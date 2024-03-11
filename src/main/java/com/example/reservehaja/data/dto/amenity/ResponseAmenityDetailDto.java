@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -77,6 +78,9 @@ public class ResponseAmenityDetailDto {
         this.revokeStandDayName = amenity.getRevokeStandDayName(); // 취소기간 기준정보
 
         this.roundList = new ArrayList<>();
+
+        LocalDate currentDate = LocalDate.now();
+
         for(Round round : amenity.getRoundList()){
             Round temp = new Round();
             temp.setId(round.getId());
@@ -84,12 +88,15 @@ public class ResponseAmenityDetailDto {
             ArrayList<RoundCell> roundCells = new ArrayList<>();
 
             for (RoundCell roundCell : round.getRoundCellList()){
-                RoundCell temp1 = new RoundCell();
-                temp1.setId(roundCell.getId());
-                temp1.setRoundCellState(roundCell.getRoundCellState());
-                temp1.setRoundCellDate(roundCell.getRoundCellDate());
 
-                roundCells.add(temp1);
+                if(currentDate.isBefore(roundCell.getRoundCellDate())){
+                    RoundCell temp1 = new RoundCell();
+                    temp1.setId(roundCell.getId());
+                    temp1.setRoundCellState(roundCell.getRoundCellState());
+                    temp1.setRoundCellDate(roundCell.getRoundCellDate());
+
+                    roundCells.add(temp1);
+                }
             }
 
             temp.setRoundCellList(roundCells);
