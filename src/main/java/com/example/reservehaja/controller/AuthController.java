@@ -16,7 +16,6 @@ public class AuthController {
 
     @PostMapping("/join")
     public boolean join(UserJoinResponseDto userJoinResponseDto){
-        System.out.println("aaa");
         return userService.addUser(userJoinResponseDto);
 
     }

@@ -2,12 +2,9 @@ package com.example.reservehaja.config;
 
 import com.example.reservehaja.data.repo.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.example.reservehaja.exception.JwtExceptionFilter;
-import com.example.reservehaja.handler.CustomLogoutSuccessHandler;
-import com.example.reservehaja.handler.OAuth2AuthenticationFailureHandler;
-import com.example.reservehaja.handler.OAuth2AuthenticationSuccessHandler;
+import com.example.reservehaja.handler.*;
 import com.example.reservehaja.service.auth.CustomOAuth2UserService;
 import com.example.reservehaja.service.auth.JwtAuthFilter;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +19,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-
-import java.util.Collections;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -41,6 +32,8 @@ public class SecurityConfig {
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+    private final LoginFormAuthenticationSuccessHandler loginFormAuthenticationSuccessHandler;
 
     private final JwtAuthFilter jwtAuthFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
@@ -60,13 +53,22 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         //.requestMatchers(antMatcher("/api/user/**")).hasRole("USER")
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/", "/auth/login", "/auth/join", "/js/**", "/svg/**").permitAll()
+                        .requestMatchers("/", "/auth/login", "/auth/join","/login/login-proc", "/js/**", "/svg/**").permitAll()
                         .requestMatchers("/amenity","/amenity/recommend", "/amenity/search", "/amenity/detail", "/amenity/read").permitAll()
                         .requestMatchers("/product", "/product/create", "/product/read", "/product/update", "/product/delete").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling((exceptionConfig) -> exceptionConfig.authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler))
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(formLoginConfigurer -> formLoginConfigurer
+                        .loginPage("/auth/login")
+                        .successHandler(loginFormAuthenticationSuccessHandler)
+                        .failureHandler(customAuthenticationFailureHandler)
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .loginProcessingUrl("/login/login-proc")
+                        .permitAll()
+                )
                 .oauth2Login(configure ->
                         configure.authorizationEndpoint(config -> config.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
                                 .userInfoEndpoint(config -> config.userService(customOAuth2UserService))

@@ -54,7 +54,7 @@ public class ResponseReserveDetailDto {
         managerName = reserve.getRoundCell().getRound().getAmenity().getAdmin().getAdminName();
         managerPhone = reserve.getRoundCell().getRound().getAmenity().getAdmin().getAdminPhone();
 
-        userName = reserve.getUser().getUserName();
+        userName = reserve.getUser().getUsername();
         userPhone = reserve.getUser().getUserPhone();
         userAddress = "서울특별시 강남구";
 

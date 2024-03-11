@@ -1,33 +1,290 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.3.0/css/flat-ui.min.css" rel="stylesheet" />
+    <title>Document</title>
+    <style>
+        .icon {
+            width: 15px;
+            height: 15px;
+        }
+
+        .gnb {
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+        }
+
+        .gnb-child {
+            width: 1180px;
+            height: 48px;
+            background-color: white;
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 14px;
+        }
+
+        .gnb-child div {
+            display: inline-block;
+        }
+
+        .header {
+            font-family: arial;
+            font-size: 24px;
+            width: 100%;
+            height: 48px;
+            background-color: #7265F0;
+        }
+
+        .header-child {
+            width: 1600px;
+            height: 48px;
+
+            /* 수평 중앙 정렬하기 */
+            margin: 0 auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-child div {
+            display: inline-block;
+        }
+
+
+
+        .main-service {
+            width: 100%;
+        }
+
+        .webtong_tab_type04 li {
+            display: table-cell;
+        }
+
+        .webtong_tab_type04 li a {
+            padding-left: 10px;
+            padding-right: 10px;
+            display: block;
+            position: relative;
+            line-height: 40px;
+            background-color: #fff;
+            font-size: 24px;
+        }
+
+        .webtong_tab_type04 li a:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1px;
+            background: #e6e3df;
+        }
+
+        .webtong_tab_type04 li a:before,
+        .webtong_tab_type04 li a:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 35px;
+            height: 4px;
+            width: 0;
+            background-color: #fd7c82;
+        }
+
+        .webtong_tab_type04 li.on a:before,
+        .webtong_tab_type04 li:hover a:before {
+            width: 100%;
+        }
+
+        .webtong_tab_type04 li.on a,
+        .webtong_tab_type04 li:hover a {
+            color: #fd7c82;
+            font-weight: 600;
+        }
+
+        .slide img{
+            width: 380px; /* 슬라이드의 너비 */
+            height: 250px; /* 슬라이드의 높이 */
+            margin-bottom: 10px;
+            border-radius: 3%;
+        }
+
+
+        .nav {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .nav span{
+            font-size: 18px;
+            color: #000000;
+            padding-right: 24px;
+        }
+
+
+
+    </style>
 </head>
+
 <body>
-<div>
-    <a href="http://reservehaja.duckdns.org/oauth2/authorization/google?redirect_uri=http://reservehaja.duckdns.org&mode=login">
-        <button>Google Login</button>
-    </a>
-    <a href="http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:8080&mode=unlink">
-        <button>Google Unlink</button>
-    </a>
-    <a href="http://reservehaja.duckdns.org/oauth2/authorization/naver?redirect_uri=http://reservehaja.duckdns.org&mode=login">
-        <button>Naver Login</button>
-    </a>
 
-    <a href="http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:8080&mode=unlink">
-        <button>Naver Unlink</button>
-    </a>
-
-    <a href="http://reservehaja.duckdns.org/oauth2/authorization/kakao?redirect_uri=http://reservehaja.duckdns.org&mode=login">
-        <button>Kakao Login</button>
-    </a>
-
-    <a href="http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080&mode=unlink">
-        <button>Kakao Unlink</button>
-    </a>
-
+<div class="wrapper">
+    <div class="head">
+        <div class="gnb">
+            <div class="gnb-child">
+                <div style="color: #222222;">서울특별시</div>
+                <div style="width:688px; color: #575757; font-size: 14px; text-align: center;"><img class="icon"
+                                                                                                    style="margin-right: 5px;" src="/src/main/resources/svg/megaphone_3914404.svg">2024
+                    서울영상크리에이터 9기 모집 안내 모집기간 2024.2.7.(수)~2024.2.20(화)(14일간)</div>
+                <div style="text-align: center;">
+                    <div style="color: #575757;"><a href="/">서울 소식</a></div>
+                    <div style="color: #575757;"><a href="/">응답소</a></div>
+                    <div style="color: #575757;"><a href="/">정보공개</a></div>
+                    <div style="color: #575757;"><a href="/">분야별정보</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="header-child">
+                <div style="color: #ffffff; font-size: 20px;">동행매력특별시서울</div>
+                <div style="width: 700px; text-align: center;"><a href="/" style="color: #ffffff; font-size: 20px;">공공서비스예약</a></div>
+                <div style="height: 50px;">
+                    <div id = "login" style="display: flex;"></div>
+                    <img class="icon" style="color: #ffffff;" src="\src\main\resources\svg\search_3917754.svg">
+                </div>
+            </div>
+        </div>
+        <div class="nav" style="text-align: center;">
+            <span><a href="/amenity/search">전체</a></span>
+            <span>캠핑장</span>
+            <span>다목적실</span>
+            <span>강의실</span>
+            <span>강당</span>
+            <span>회의실</span>
+            <span>주민공유공간</span>
+            <span>공연장</span>
+            <span>녹화장소</span>
+            <span>전시실</span>
+            <span>광장</span>
+            <span>청년공간</span>
+        </div>
+    </div>
+    <div class="contents">
+        <div class="main-service">
+            <div style="width: 1180px; margin: 0 auto; margin-top: 60px;">
+                <div style="padding:50px; margin-left: auto; margin-right: auto; width: 450px;   border:1px solid #cacfd3; border-radius: 10px; text-align: center">
+                    <div style="font-size: 18px; font-weight: bold;">서울시 통합 아이디/비밀번호로 로그인을 해주세요.</div>
+                    <div style="font-size: 14px;">서울시 아이디로 공공서비스예약 서비스 이용이 가능합니다.</div>
+                        <div style="margin-top: 20px;"><input id="username" name="username" style="height: 34px; border:1px solid #cacfd3; padding-left: 10px; width: 98%" type="text" placeholder="아이디를 입력해주세요."></div>
+                        <div style="margin-top: 10px;"><input id="password" name="password" style="height: 34px; border:1px solid #cacfd3; padding-left: 10px; width: 98%" type="password" placeholder="비밀번호를 입력해 주세요."></div>
+                        <div style="margin-top: 10px;"><button type="submit" id="loginButton" style="width: 100%; background: #0379d5; color: #ffffff; font-size: 16px; height: 40px; border: none; font-weight: bold;">로그인</button></div>
+                    <div style="display: flex; margin-top: 20px;">
+                        <div style="margin-left: auto; font-size: 14px;"><a style="color: #222222;">아이디 찾기/비밀번호 찾기</a></div>
+                        <div style="color: #cacfd3; font-size: 14px;">&nbsp;|&nbsp;</div>
+                        <div style="margin-right: auto; font-size: 14px; "><a style="color: #0379d5;">서울시 통합 회원가입</a></div>
+                    </div>
+                    <div style="margin-top: 30px; display: flex; ">
+                        <div style="margin-right:5px; width: 100%; display: flex; background-color: #FEE500; height: 40px; justify-content: center; align-items: center;">
+                            <img src="/svg/kakao.png" style=" height:20px; width:20px; margin-right:10px;">
+                            <a href="http://reservehaja.duckdns.org/oauth2/authorization/kakao?redirect_uri=http://reservehaja.duckdns.org&mode=login" style="font-size:12px; color: #222222;">카카오 로그인</a>
+                        </div>
+                        <div style="margin-right:5px; margin-left:5px; width: 100%; border:0.5px solid #e8eaed;  display: flex; background-color: #FFFFFF; height: 40px;justify-content: center; align-items: center;">
+                            <img src="/svg/google.png" style=" height:20px; width:20px; margin-right:10px;">
+                            <a href="http://reservehaja.duckdns.org/oauth2/authorization/google?redirect_uri=http://reservehaja.duckdns.org&mode=login" style="font-size:12px; color: #222222">구글 로그인</a>
+                        </div>
+                        <div style="margin-left:5px; width: 100%; display: flex; background-color: #03C75A; height: 40px; justify-content: center; align-items: center;">
+                            <img src="/svg/naver.png" style=" height:30px; width:30px;">
+                            <a href="http://reservehaja.duckdns.org/oauth2/authorization/naver?redirect_uri=http://reservehaja.duckdns.org&mode=login" style="font-size:12px; color: #FFFFFF;">네이버 로그인</a>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <div style="font-size: 12px; color: #666666;">로그인 관련 문의</div>
+                        <div style="font-size: 12px; color: #666666;">- 구글/네이버 아이디로 로그인:02-2126-4647</div>
+                        <div style="font-size: 12px; color: #666666;">- 서울시 통합회원 및 비회원 로그인(아이핀본인인증) : 02-2126-4519</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" style="margin-top: 70px;">
+        <div style="line-height: 50px;  height: 50px; font-size: 15px; background-color: #222222; color: #FFFFFF; text-align: center;">개인정보처리방침 | 이메일 무단수집거부 | 뷰어프로그램 다운로드 | 사이트맵</div>
+        <div style="margin-top: 20px; color: #666666; font-size: 15px; text-align: center;">서울특별시청 04524 서울특별시 중구 세종대로 110 문의: 02) 120 (휴일, 야간)</div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">장애신고: 02-2126-4647 (평일)</div>
+        <div style="color: #666666; font-size: 15px; text-align: center;">© Seoul Metropolitan Government all rights reserved.</div>
+    </div>
 </div>
+<script>
+
+    $('#loginButton').click(function () {
+
+        var data = {
+            username: $('#username').val(),
+            password: $('#password').val()
+        };
+
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: "/login/login-proc", // 로그인 처리를 담당하는 서버의 엔드포인트 URL
+            data: data,
+            success: function (response) {
+                console.log('Login Successful');
+                window.location.href = '/';
+            },
+            error: function (error) {
+                // 로그인 실패 시 처리
+                alert("Login failed");
+                // 여기에서 필요한 추가 작업 수행
+            }
+        });
+
+
+    });
+
+
+
+    $(document).ready(function() {
+
+        function getCookie(name) {
+            const value = "; " + document.cookie;
+            const parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        $(document).ready(function () {
+            // 쿠키에서 accessToken 값을 가져옴
+            const loginFlag = getCookie("loginFlag");
+
+            // accessToken이 존재하는지 확인
+            if (loginFlag) {
+                console.log("AccessToken exists:", loginFlag);
+                $('#login').append('<div style="margin-right: 10px;"><a style="color: #ffffff; font-size: 13px;" href="/mypage">마이페이지</a></div>');
+                $('#login').append('<div><a style="color: #ffffff; font-size: 13px;" href="/auth/logout">로그아웃</a></div>');
+            } else {
+                console.log("AccessToken does not exist.");
+                $('#login').append('<a style="line-height: 4; color: #ffffff; font-size: 13px;" href="/auth/login">로그인</a>');
+            }
+        });
+
+
+    });
+
+
+
+</script>
 </body>
+
 </html>

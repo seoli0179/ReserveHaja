@@ -72,7 +72,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             User findUser = userRepository.findByUserEmail(jwtUtil.getUid(atc))
                     .orElseThrow(IllegalStateException::new);
             // SecurityContext에 등록할 User 객체를 만들어준다.
-            SecurityUserDto userDto = new SecurityUserDto(findUser.getUserId(),findUser.getUserName(),findUser.getUserEmail());
+            SecurityUserDto userDto = new SecurityUserDto(findUser.getUserId(),findUser.getUsername(),findUser.getUserEmail());
 
             // SecurityContext에 인증 객체를 등록해준다.
             Authentication auth = getAuthentication(userDto);

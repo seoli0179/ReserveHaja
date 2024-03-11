@@ -3,9 +3,12 @@ package com.example.reservehaja.handler;
 import com.example.reservehaja.data.dto.user.Token;
 import com.example.reservehaja.data.dto.user.OAuth2Provider;
 import com.example.reservehaja.data.dto.user.OAuth2UserUnlinkManager;
+import com.example.reservehaja.data.entity.User;
 import com.example.reservehaja.data.repo.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.example.reservehaja.data.repo.UserRepository;
 import com.example.reservehaja.service.auth.JwtUtil;
 import com.example.reservehaja.service.auth.OAuth2UserPrincipal;
+import com.example.reservehaja.service.auth.RandomPasswordGenerator;
 import com.example.reservehaja.service.user.UserService;
 import com.example.reservehaja.service.auth.CookieUtils;
 import jakarta.servlet.ServletException;
@@ -15,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,8 +35,8 @@ import static com.example.reservehaja.data.repo.HttpCookieOAuth2AuthorizationReq
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final UserRepository userRepository;
     private final OAuth2UserUnlinkManager oAuth2UserUnlinkManager;
-    private final UserService userService;
     private final JwtUtil jwtUtil;
 
     @Override
@@ -87,16 +91,29 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             System.out.println(targetUrl);
 
-            if(userService.isEmptyUserEmail(principal.getUserInfo().getEmail())){
+
+            if (!userRepository.existsByUserEmail(principal.getUserInfo().getEmail())) {
+
+                User user = new User();
+                user.setUserId(principal.getUserInfo().getEmail());
+                user.setUserName(principal.getUserInfo().getName());
+                user.setUserEmail(principal.getUserInfo().getEmail());
+                user.setUserPassword(RandomPasswordGenerator.generateRandomPassword());
+                userRepository.save(user);
+
+                /*
                 return UriComponentsBuilder.fromUriString("http://3.106.116.112/auth/join")
                         .queryParam("userEmail", principal.getUserInfo().getEmail())
                         .build().toUriString();
+
+                 */
+
             }
 
             Token token = jwtUtil.generateToken(principal.getUserInfo().getEmail());
 
-            CookieUtils.addCookie(response,"accessToken", token.getAccessToken(),1800);
-            CookieUtils.addCookieNotHttpOnly(response,"loginFlag", "True",1800);
+            CookieUtils.addCookie(response, "accessToken", token.getAccessToken(), 1800);
+            CookieUtils.addCookieNotHttpOnly(response, "loginFlag", "True", 1800);
             //CookieUtils.addCookie(response,"Authorization", "Bearer " + token.getAccessToken(),3600);
             return UriComponentsBuilder.fromUriString(targetUrl + "/")
                     //.queryParam("access_token", token.getAccessToken())
